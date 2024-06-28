@@ -10,7 +10,9 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Upload;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class Prerequisites
 {
@@ -26,8 +28,12 @@ class Prerequisites
      * @param string $maxFileSize
      * @param array $validMimeTypes
      */
-    public function __construct(string $destDir = '', string $maxFileSize = '', array $validMimeTypes = [], bool $replaceIfExists = false)
-    {
+    public function __construct(
+        string $destDir = '',
+        string $maxFileSize = '',
+        array $validMimeTypes = [],
+        bool $replaceIfExists = false
+    ) {
         $this->destDir = rtrim($destDir, '\\/');
         $this->maxFileSize = $this->parseSize($maxFileSize);
         $this->validMimeTypes = $validMimeTypes;

@@ -10,7 +10,7 @@
 
 namespace Obix\Component\Handover\Administrator\View\Export;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
@@ -19,6 +19,8 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
+
+use function defined;
 
 class HtmlView extends BaseHtmlView
 {
@@ -32,6 +34,7 @@ class HtmlView extends BaseHtmlView
 
         parent::display($tpl);
     }
+
     protected function addToolbar()
     {
         Factory::getApplication()->input->set('hidemainmenu', true);
@@ -42,8 +45,7 @@ class HtmlView extends BaseHtmlView
 
         ToolbarHelper::title(Text::_('COM_HANDOVER_EXPORT_TITLE'), 'export');
 
-        if ($canDo->get('core.export'))
-        {
+        if ($canDo->get('core.export')) {
             $toolbar->standardButton('export', 'COM_HANDOVER_ACTION_EXPORT', 'export.export');
         }
 

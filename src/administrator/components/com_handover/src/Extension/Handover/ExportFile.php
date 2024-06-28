@@ -10,9 +10,11 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Handover;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\ListModelInterface;
+use RuntimeException;
+
+use function defined;
 
 class ExportFile
 {
@@ -35,7 +37,7 @@ class ExportFile
                 'data' => $items
             ], JSON_PRETTY_PRINT)) === false) {
             $error = error_get_last();
-            throw new \RuntimeException($error['message'], $error['type']);
+            throw new RuntimeException($error['message'], $error['type']);
         }
     }
 
@@ -47,7 +49,7 @@ class ExportFile
 
         if (!unlink($this->outputPath)) {
             $error = error_get_last();
-            throw new \RuntimeException($error['message'], $error['type']);
+            throw new RuntimeException($error['message'], $error['type']);
         }
 
         return true;

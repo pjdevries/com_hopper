@@ -10,16 +10,18 @@
 
 namespace Obix\Component\Handover\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\Model\ListModelInterface;
+
+use function defined;
 
 class FieldsCategoriesModel extends BaseDatabaseModel implements ListModelInterface
 {
     public function getItems(): ?array
     {
-        $db    = $this->getDatabase();
+        $db = $this->getDatabase();
 
         $query = $db->getQuery(true);
         $query

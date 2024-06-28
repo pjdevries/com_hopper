@@ -10,10 +10,12 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Handover\Importer;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
-use Joomla\CMS\Factory;
 use Joomla\Component\Categories\Administrator\Model\CategoryModel;
+use RuntimeException;
+
+use function defined;
 
 class CategoriesImporter extends BaseImporter implements ImporterInterface
 {
@@ -35,28 +37,32 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
             $category->parent_id = $this->idMap[$category->parent_id] ?? 1;
 
             if (!($id = $this->save($category))) {
-                throw new \RuntimeException($this->model->getError());
+                throw new RuntimeException($this->model->getError());
             }
 
-            $this->idMap[(int) $category->id] = $id;
+            $this->idMap[(int)$category->id] = $id;
         }
-        
+
         $this->fixAssociations($data, $this->idMap);
     }
-    
+
     private function fixAssociations(array $data, array $idMap): void
     {
         foreach ($data as $category) {
             $data = [
-                'associations' => array_reduce(array_keys((array)$category->associations), function (array $carry, string $lang) use ($category, $idMap) {
-                    $carry[$lang] = $idMap[(int)$category->associations->$lang];
+                'associations' => array_reduce(
+                    array_keys((array)$category->associations),
+                    function (array $carry, string $lang) use ($category, $idMap) {
+                        $carry[$lang] = $idMap[(int)$category->associations->$lang];
 
-                    return $carry;
-                }, [])
+                        return $carry;
+                    },
+                    []
+                )
             ];
 
             if (!$this->model->save($data)) {
-                throw new \RuntimeException($this->model->getError());
+                throw new RuntimeException($this->model->getError());
             }
         }
     }
@@ -84,7 +90,7 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
             'tags' => []
         ];
 
-        return $this->model->save($data) ? (int) $this->model->getState($this->model->getName() . '.id') : 0;
+        return $this->model->save($data) ? (int)$this->model->getState($this->model->getName() . '.id') : 0;
     }
 
     public function getIdMap(): array

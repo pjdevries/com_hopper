@@ -10,10 +10,13 @@
 
 namespace Obix\Component\Handover\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Component\Categories\Administrator\Helper\CategoriesHelper;
 use Joomla\Component\Categories\Administrator\Model\CategoriesModel as BaseCategoriesModel;
+
+use function defined;
+use function is_array;
 
 class CategoriesModel extends BaseCategoriesModel
 {
@@ -73,7 +76,7 @@ class CategoriesModel extends BaseCategoriesModel
 
         $id = $this->getState('filter.id', []);
 
-        if (!\is_array($id)) {
+        if (!is_array($id)) {
             $id = $id ? [$id] : [];
         }
 

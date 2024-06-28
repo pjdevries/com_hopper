@@ -10,14 +10,19 @@
 
 namespace Obix\Component\Handover\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\Component\Fields\Administrator\Model\FieldsModel;
+use Joomla\Component\Fields\Administrator\Model\GroupsModel;
 use Obix\Component\Handover\Administrator\Extension\Handover\ExportFile;
 use Obix\Component\Handover\Administrator\Extension\Handover\HandoverType;
 use Obix\Component\Handover\Administrator\Extension\HandoverComponent;
+
+use function defined;
 
 class ExportModel extends BaseModel
 {
@@ -26,13 +31,22 @@ class ExportModel extends BaseModel
         $outputDir = $this->getState('outputDir', JPATH_SITE . '/tmp');
 
         // Field categories
-        /** @var \Obix\Component\Handover\Administrator\Model\FieldsCategoriesModel $fieldGroupsModel */
+        /** @var FieldsCategoriesModel $fieldGroupsModel */
         $fieldsCategoriesModel = HandoverComponent::getContainer()
-            ->get(MVCFactoryInterface::class)->createModel('FieldsCategories', 'Administrator', ['ignore_request' => true]);
-        $this->exportType(HandoverType::FieldCategories, $fieldCategories = $fieldsCategoriesModel->getItems(), 'fields_categories.json', $outputDir);
+            ->get(MVCFactoryInterface::class)->createModel(
+                'FieldsCategories',
+                'Administrator',
+                ['ignore_request' => true]
+            );
+        $this->exportType(
+            HandoverType::FieldCategories,
+            $fieldCategories = $fieldsCategoriesModel->getItems(),
+            'fields_categories.json',
+            $outputDir
+        );
 
         // Categories
-        /** @var \Obix\Component\Handover\Administrator\Model\CategoriesModel $categoriesModel */
+        /** @var CategoriesModel $categoriesModel */
         $categoriesModel = HandoverComponent::getContainer()
             ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
@@ -40,7 +54,7 @@ class ExportModel extends BaseModel
         $this->exportType(HandoverType::Categories, $categoriesModel->getItems(), 'categories.json', $outputDir);
 
         // Field groups
-        /** @var \Joomla\Component\Fields\Administrator\Model\GroupsModel $fieldGroupsModel */
+        /** @var GroupsModel $fieldGroupsModel */
         $fieldGroupsModel = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $fieldGroupsModel->setState('filter.context', '');
@@ -48,7 +62,7 @@ class ExportModel extends BaseModel
         $this->exportType(HandoverType::FieldGroups, $fieldGroupsModel->getItems(), 'fields_groups.json', $outputDir);
 
         // Fields
-        /** @var \Joomla\Component\Fields\Administrator\Model\FieldsModel $fieldsModel */
+        /** @var FieldsModel $fieldsModel */
         $fieldsModel = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
         $fieldsModel->setState('list.select', 'a.*');
@@ -61,7 +75,7 @@ class ExportModel extends BaseModel
 
         try {
             $handoverFile->export($type, $items);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $handoverFile->delete();
 
             throw $e;

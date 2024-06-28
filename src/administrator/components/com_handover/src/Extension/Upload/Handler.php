@@ -10,11 +10,16 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Upload;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Exception;
+use finfo;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\Form\FormField;
 use Joomla\CMS\Language\Text;
+use RuntimeException;
+
+use function defined;
 
 class Handler
 {
@@ -68,24 +73,37 @@ class Handler
         $handlers = [];
 
         // Extract custom field settings for all fields of type "upload" from the form definition.
-        $uploadFieldSpecsByFieldName = array_reduce($form->getFieldset(), function (array $carry, FormField $field) use ($validBoolean) {
-            if (strtolower($field->getAttribute('type')) === 'upload') {
-                // File input name is field name with '-files' suffix appended.
-                $carry[$field->getProperty('fieldname') . '-files'] = [
-                    'maxUploadSize' => $field->getAttribute('maxUploadSize') ?? $field->getProperty('maxUploadSize'),
-                    'destDir' => $field->getAttribute('destDir') ?? $field->getProperty('destDir'),
-                    'replaceIfExists' => $validBoolean[($field->getAttribute('replaceIfExists') ?? $field->getProperty(
-                            'replaceIfExists'
-                        ))] ?? false,
-                ];
-            }
+        $uploadFieldSpecsByFieldName = array_reduce(
+            $form->getFieldset(),
+            function (array $carry, FormField $field) use ($validBoolean) {
+                if (strtolower($field->getAttribute('type')) === 'upload') {
+                    // File input name is field name with '-files' suffix appended.
+                    $carry[$field->getProperty('fieldname') . '-files'] = [
+                        'maxUploadSize' => $field->getAttribute('maxUploadSize') ?? $field->getProperty(
+                                'maxUploadSize'
+                            ),
+                        'destDir' => $field->getAttribute('destDir') ?? $field->getProperty('destDir'),
+                        'replaceIfExists' => $validBoolean[($field->getAttribute(
+                                'replaceIfExists'
+                            ) ?? $field->getProperty(
+                                'replaceIfExists'
+                            ))] ?? false,
+                    ];
+                }
 
-            return $carry;
-        }, []);
+                return $carry;
+            },
+            []
+        );
 
         foreach ($uploadedFiles as $fieldName => $files) {
             $fieldSpecs = $uploadFieldSpecsByFieldName[$fieldName];
-            $prerequisites = new Prerequisites($fieldSpecs['destDir'], $fieldSpecs['maxUploadSize'], [], $fieldSpecs['replaceIfExists']);
+            $prerequisites = new Prerequisites(
+                $fieldSpecs['destDir'],
+                $fieldSpecs['maxUploadSize'],
+                [],
+                $fieldSpecs['replaceIfExists']
+            );
 
             $uploadHandler = new static($files, $prerequisites);
             $uploadHandler->execute();
@@ -103,7 +121,7 @@ class Handler
         foreach ($this->uploadedFiles as $key => $uploadedFile) {
             try {
                 $this->checkFile($uploadedFile);
-            } catch (\RuntimeException $e) {
+            } catch (RuntimeException $e) {
                 $this->uploadedFiles[$key]['exception'] = $e;
                 $failureCount++;
             }
@@ -115,7 +133,7 @@ class Handler
     private function checkFile(array $uploadedFile)
     {
         if (!isset($uploadedFile['error']) || is_array($uploadedFile['error'])) {
-            throw new \RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR'));
+            throw new RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR'));
         }
 
         switch ($uploadedFile['error']) {
@@ -123,11 +141,11 @@ class Handler
                 break;
 
             case UPLOAD_ERR_NO_FILE:
-                throw new \RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR_NO_FILE'));
+                throw new RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR_NO_FILE'));
 
             case UPLOAD_ERR_INI_SIZE:
             case UPLOAD_ERR_FORM_SIZE:
-                throw new \RuntimeException(
+                throw new RuntimeException(
                     Text::sprintf(
                         'COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR_MAX_SIZE_EXCEEDED',
                         $this->prerequisites->getMaxFileSize()
@@ -135,15 +153,15 @@ class Handler
                 );
 
             default:
-                throw new \RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR'));
+                throw new RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR'));
         }
 
         if (!is_file($uploadedFile['tmp_name'])) {
-            throw new \RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_NOT_FOUND'));
+            throw new RuntimeException(Text::_('COM_DMA_SHIP_FOTO_S_UPLOAD_NOT_FOUND'));
         }
 
         if (!$this->prerequisites->isValidSize($uploadedFile['size'])) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 Text::sprintf(
                     'COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR_MAX_SIZE_EXCEEDED',
                     $this->prerequisites->getMaxFileSize()
@@ -154,7 +172,7 @@ class Handler
         $uploadMimeType = $this->mimeType($uploadedFile['tmp_name']);
 
         if (!$this->prerequisites->isValidMimeType($uploadMimeType)) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 Text::sprintf('COM_DMA_SHIP_FOTO_S_UPLOAD_ERROR_INVALID_TYPE', $uploadMimeType)
             );
         }
@@ -195,7 +213,7 @@ class Handler
             try {
                 // Move the uploaded file to the final destination.
                 $this->uploadedFiles[$key]['dest_path'] = $this->move($file);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $this->uploadedFiles[$key]['exception'] = $e;
                 $failureCount++;
             }
@@ -209,7 +227,7 @@ class Handler
         $srcPath = $uploadedFile['tmp_name'];
 
         if (!is_uploaded_file($srcPath)) {
-            throw new \RuntimeException(Text::_('COM_DMA_ERROR_NOT_AN_UPLOADED_FILE'));
+            throw new RuntimeException(Text::_('COM_DMA_ERROR_NOT_AN_UPLOADED_FILE'));
         }
 
         $destDir = $this->prerequisites->getDestDir();
@@ -245,13 +263,13 @@ class Handler
         }
 
         if (!rename($srcPath, $destPath)) {
-            throw new \RuntimeException(error_get_last()['message']);
+            throw new RuntimeException(error_get_last()['message']);
         }
 
         if (!chmod($destPath, 0644)) {
             unlink($destPath);
 
-            throw new \RuntimeException(error_get_last()['message']);
+            throw new RuntimeException(error_get_last()['message']);
         }
 
         return $destPath;
@@ -268,7 +286,7 @@ class Handler
 
     private function mimeType(string $file): string
     {
-        return (new \finfo(FILEINFO_MIME_TYPE))->file($file);
+        return (new finfo(FILEINFO_MIME_TYPE))->file($file);
     }
 
     /**

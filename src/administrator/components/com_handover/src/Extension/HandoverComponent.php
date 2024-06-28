@@ -10,12 +10,14 @@
 
 namespace Obix\Component\Handover\Administrator\Extension;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Extension\BootableExtensionInterface;
 use Joomla\CMS\Extension\MVCComponent;
 use Joomla\CMS\Factory;
 use Psr\Container\ContainerInterface;
+
+use function defined;
 
 class HandoverComponent extends MVCComponent implements BootableExtensionInterface
 {
@@ -28,8 +30,7 @@ class HandoverComponent extends MVCComponent implements BootableExtensionInterfa
 
     public static function getContainer()
     {
-        if (empty(self::$dic))
-        {
+        if (empty(self::$dic)) {
             Factory::getApplication()->bootComponent('com_handover');
         }
 

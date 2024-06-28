@@ -9,7 +9,6 @@
  * https://css-tricks.com/drag-and-drop-file-uploading/
  */
 
-use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 
 defined('_JEXEC') or die;

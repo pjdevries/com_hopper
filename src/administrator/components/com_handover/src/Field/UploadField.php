@@ -13,6 +13,7 @@ defined('JPATH_PLATFORM') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\FormField;
+use Joomla\CMS\WebAsset\WebAssetManager;
 use SimpleXMLElement;
 
 class UploadField extends FormField
@@ -43,7 +44,7 @@ class UploadField extends FormField
 
         $doc = Factory::getApplication()->getDocument();
 
-        /** @var \Joomla\CMS\WebAsset\WebAssetManager $wa */
+        /** @var WebAssetManager $wa */
         $wa = $doc->getWebAssetManager();
         if (!$wa->assetExists('preset', 'upload')) {
             $wr = $wa->getRegistry();
@@ -65,7 +66,7 @@ class UploadField extends FormField
      *
      * @see     FormField::setup()
      */
-    public function setup(\SimpleXMLElement $element, $value, $group = null)
+    public function setup(SimpleXMLElement $element, $value, $group = null)
     {
         if (($result = parent::setup($element, $value, $group)) !== true) {
             return $result;

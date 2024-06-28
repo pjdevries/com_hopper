@@ -10,11 +10,13 @@
 
 namespace Obix\Component\Handover\Administrator\Controller;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 use Joomla\CMS\Router\Route;
 use Obix\Component\Handover\Administrator\Model\ImportModel;
+
+use function defined;
 
 class ImportController extends BaseController
 {

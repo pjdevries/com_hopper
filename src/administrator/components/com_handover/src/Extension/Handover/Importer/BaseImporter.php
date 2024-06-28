@@ -10,7 +10,9 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Handover\Importer;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class BaseImporter
 {

@@ -10,12 +10,15 @@
 
 namespace Obix\Component\Handover\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Model\FormModel;
 use Obix\Component\Handover\Administrator\Extension\Handover\Importer\ImporterFactory;
 use Obix\Component\Handover\Administrator\Extension\Upload\Handler;
+
+use function defined;
 
 class ImportModel extends FormModel
 {
@@ -55,7 +58,7 @@ class ImportModel extends FormModel
             }
 
             $db->transactionCommit();
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $db->transactionRollback();
 
             throw $e;
