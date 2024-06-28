@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="component" method="upgrade">
+    <name>COM_HANDOVER</name>
+    <creationDate>2024-06-27</creationDate>
+    <copyright>Copyright (C) 2024 Obix webtechniek. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <author>Obix webtechniek - Pieter-Jan de Vries</author>
+    <authorEmail>pieter@obix.nl</authorEmail>
+    <authorUrl>https://www.obix.nl</authorUrl>
+    <version>1.0.0</version>
+    <description><![CDATA[COM_HANDOVER_DESCRIPTION]]></description>
+    <namespace path="src">Obix\Component\Handover</namespace>
+
+    <administration>
+        <menu link="option=com_spm" img="class:default">COM_HANDOVER_MENU_BACKEND</menu>
+
+        <files folder="administrator/components/com_handover">
+            <folder>forms</folder>
+            <folder>language</folder>
+            <folder>services</folder>
+            <folder>src</folder>
+            <folder>tmpl</folder>
+            <filename>access.xml</filename>
+            <filename>handover.xml</filename>
+            <filename>config.xml</filename>
+        </files>
+    </administration>
+
+    <media folder="media/com_handover" destination="com_handover">
+        <folder>css</folder>
+        <folder>js</folder>
+        <folder>images</folder>
+        <file>joomla.asset.json</file>
+    </media>
+</extension>

@@ -1,0 +1,21 @@
+# IDE & System Related Files
+.idea
+
+/tmp
+
+# Vendor directory handling
+/src/libraries/vendor
+!src/libraries/vendor/.gitkeep
+
+/src/media/vendor
+!src/media/vendor/.gitkeep
+
+# Stubs file holding mapped classes
+/stubs.php
+
+# CSS map files
+.map
+.zip
+.tar
+.tar.gz
+
