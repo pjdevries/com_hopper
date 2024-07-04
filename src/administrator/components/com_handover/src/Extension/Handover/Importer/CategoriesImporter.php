@@ -22,34 +22,34 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
     public function __construct(CategoryModel $model)
     {
         $this->model = $model;
+        $this->model->setState('category.extension', 'com_content');
     }
 
     public function import(array $data): void
     {
         usort($data, fn(object $c1, object $c2) => $c1->parent <=> $c2->parent);
 
-        $idMap = [
-            1 => 0
-        ];
+        $idMap = [];
 
         foreach ($data as $category) {
+            $category->parent_id = $idMap[$category->parent_id] ?? 1;
+
             if (!($id = $this->save($category))) {
                 throw new \RuntimeException($this->model->getError());
             }
 
-            $idMap[(int) $category->id] = (int) $id;
+            $idMap[(int) $category->id] = $id;
         }
         
-        $this->fixForeignKeys($data, $idMap);
+        $this->fixAssociations($data, $idMap);
     }
     
-    private function fixForeignKeys(array $data, array $idMap): void
+    private function fixAssociations(array $data, array $idMap): void
     {
         foreach ($data as $category) {
             $data = [
-                'parent_id' => $idMap[$category->id],
-                'associations' => array_reduce(array_keys($category->associations), function (array $carry, string $lang) use ($category, $idMap) {
-                    $carry[$lang] = $idMap[(int)$category->associations[$lang]];
+                'associations' => array_reduce(array_keys((array)$category->associations), function (array $carry, string $lang) use ($category, $idMap) {
+                    $carry[$lang] = $idMap[(int)$category->associations->$lang];
 
                     return $carry;
                 }, [])
@@ -64,7 +64,7 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
     private function save(object $category): int
     {
         $data = [
-            'id' => $category->id,
+            'id' => 0,
             'parent_id' => $category->parent_id,
             'extension' => $category->extension,
             'title' => $category->title,

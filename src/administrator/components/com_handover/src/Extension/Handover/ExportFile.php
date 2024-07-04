@@ -26,13 +26,13 @@ class ExportFile
         $this->outputPath = rtrim($outputDir, '\\/') . '/' . $ouputFile;
     }
 
-    public function export(string $type, ListModelInterface $model,): void
+    public function export(string $type, array $items): void
     {
         $this->delete();
 
         if (file_put_contents($this->outputPath, json_encode([
                 'type' => $type,
-                'data' => $model->getItems()
+                'data' => $items
             ], JSON_PRETTY_PRINT)) === false) {
             $error = error_get_last();
             throw new \RuntimeException($error['message'], $error['type']);
