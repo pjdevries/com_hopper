@@ -56,15 +56,27 @@ class Handler
      */
     public static function handle(array $uploadedFiles, Form $form, bool $onlyReturnSuccessful = false): array
     {
+        static $validBoolean = [
+            '0' => false,
+            '1' => true,
+            'false' => false,
+            'true' => true,
+            'no' => false,
+            'yes' => true
+        ];
+
         $handlers = [];
 
-        // Extract custom field settings for all fields of type "obixupload" from the form definition.
-        $uploadFieldSpecsByFieldName = array_reduce($form->getFieldset(), function (array $carry, FormField $field) {
+        // Extract custom field settings for all fields of type "upload" from the form definition.
+        $uploadFieldSpecsByFieldName = array_reduce($form->getFieldset(), function (array $carry, FormField $field) use ($validBoolean) {
             if (strtolower($field->getAttribute('type')) === 'upload') {
                 // File input name is field name with '-files' suffix appended.
                 $carry[$field->getProperty('fieldname') . '-files'] = [
                     'maxUploadSize' => $field->getAttribute('maxUploadSize') ?? $field->getProperty('maxUploadSize'),
-                    'destDir' => $field->getAttribute('destDir') ?? $field->getProperty('destDir')
+                    'destDir' => $field->getAttribute('destDir') ?? $field->getProperty('destDir'),
+                    'replaceIfExists' => $validBoolean[($field->getAttribute('replaceIfExists') ?? $field->getProperty(
+                            'replaceIfExists'
+                        ))] ?? false,
                 ];
             }
 
@@ -73,7 +85,7 @@ class Handler
 
         foreach ($uploadedFiles as $fieldName => $files) {
             $fieldSpecs = $uploadFieldSpecsByFieldName[$fieldName];
-            $prerequisites = new Prerequisites($fieldSpecs['destDir'], $fieldSpecs['maxUploadSize']);
+            $prerequisites = new Prerequisites($fieldSpecs['destDir'], $fieldSpecs['maxUploadSize'], [], $fieldSpecs['replaceIfExists']);
 
             $uploadHandler = new static($files, $prerequisites);
             $uploadHandler->execute();
@@ -209,9 +221,10 @@ class Handler
         $destPath = realpath($destDir) . '/' . $uploadedFile['name'];
 
         $regex = '/^(?P<name>.*?) \((?P<version>([0-9]+))\)$/';
-        $version = 1;
 
-        if (file_exists($destPath)) {
+        if (file_exists($destPath) && !$this->prerequisites->isReplaceIfExists()) {
+            $version = 1;
+
             do {
                 $parts = pathinfo($destPath);
 

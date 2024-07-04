@@ -19,6 +19,8 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
 {
     private CategoryModel $model;
 
+    private array $idMap = [];
+
     public function __construct(CategoryModel $model)
     {
         $this->model = $model;
@@ -29,19 +31,17 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
     {
         usort($data, fn(object $c1, object $c2) => $c1->parent <=> $c2->parent);
 
-        $idMap = [];
-
         foreach ($data as $category) {
-            $category->parent_id = $idMap[$category->parent_id] ?? 1;
+            $category->parent_id = $this->idMap[$category->parent_id] ?? 1;
 
             if (!($id = $this->save($category))) {
                 throw new \RuntimeException($this->model->getError());
             }
 
-            $idMap[(int) $category->id] = $id;
+            $this->idMap[(int) $category->id] = $id;
         }
         
-        $this->fixAssociations($data, $idMap);
+        $this->fixAssociations($data, $this->idMap);
     }
     
     private function fixAssociations(array $data, array $idMap): void
@@ -85,5 +85,10 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
         ];
 
         return $this->model->save($data) ? (int) $this->model->getState($this->model->getName() . '.id') : 0;
+    }
+
+    public function getIdMap(): array
+    {
+        return $this->idMap;
     }
 }

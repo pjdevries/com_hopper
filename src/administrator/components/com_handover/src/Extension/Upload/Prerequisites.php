@@ -20,15 +20,18 @@ class Prerequisites
 
     private array $validMimeTypes;
 
+    private bool $replaceIfExists;
+
     /**
      * @param string $maxFileSize
      * @param array $validMimeTypes
      */
-    public function __construct(string $destDir = '', string $maxFileSize = '', array $validMimeTypes = [])
+    public function __construct(string $destDir = '', string $maxFileSize = '', array $validMimeTypes = [], bool $replaceIfExists = false)
     {
         $this->destDir = rtrim($destDir, '\\/');
         $this->maxFileSize = $this->parseSize($maxFileSize);
         $this->validMimeTypes = $validMimeTypes;
+        $this->replaceIfExists = $replaceIfExists;
     }
 
     /**
@@ -124,5 +127,15 @@ class Prerequisites
         $this->destDir = rtrim($destDir, '\\/');
 
         return $this;
+    }
+
+    public function isReplaceIfExists(): bool
+    {
+        return $this->replaceIfExists;
+    }
+
+    public function setReplaceIfExists(bool $replaceIfExists): void
+    {
+        $this->replaceIfExists = $replaceIfExists;
     }
 }
