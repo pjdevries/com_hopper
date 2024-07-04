@@ -20,17 +20,13 @@ $wa
 HTMLHelper::_('behavior.formvalidator');
 HTMLHelper::_('behavior.keepalive');
 
-$formAction = Route::_('index.php?option=com_handover&task=export.export');
+$formAction = Route::_('index.php?option=com_handover&task=import.import');
 ?>
-<form action="<?= $formAction ?>" method="post" name="adminForm" id="export-form" class="form-validate">
+<form action="<?= $formAction ?>" method="post" name="adminForm" id="import-form" class="form-validate">
     <div>
         <div class="row">
             <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6">
-                        Here comes stuff to control the import.
-                    </div>
-                </div>
+                <?php echo $this->form->renderField('importFiles'); ?>
             </div>
         </div>
     </div>

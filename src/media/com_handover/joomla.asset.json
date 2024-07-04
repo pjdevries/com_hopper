@@ -18,6 +18,27 @@
       "attributes": {
         "defer": true
       }
+    },
+    {
+      "name": "upload-css",
+      "type": "style",
+      "uri": "com_handover/upload.css"
+    },
+    {
+      "name": "upload-js",
+      "type": "script",
+      "uri": "com_handover/upload.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "upload",
+      "type": "preset",
+      "dependencies": [
+        "upload-css#style",
+        "upload-js#script"
+      ]
     }
   ]
 }

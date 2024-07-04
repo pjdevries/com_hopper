@@ -25,18 +25,18 @@ class ExportModel extends BaseModel
     {
         $outputDir = $this->getState('outputDir', JPATH_SITE . '/tmp');
 
+        // Field categories
+        /** @var \Obix\Component\Handover\Administrator\Model\FieldsCategoriesModel $fieldGroupsModel */
+        $fieldsCategoriesModel = HandoverComponent::getContainer()
+            ->get(MVCFactoryInterface::class)->createModel('FieldsCategories', 'Administrator', ['ignore_request' => true]);
+        $this->exportType('fields_categories', $fieldsCategoriesModel, 'fields_categories.json', $outputDir);
+
         // Categories
         /** @var \Obix\Component\Handover\Administrator\Model\CategoriesModel $categoriesModel */
         $categoriesModel = HandoverComponent::getContainer()
             ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
         $this->exportType('categories', $categoriesModel, 'categories.json', $outputDir);
-
-        // Field categories
-        /** @var \Obix\Component\Handover\Administrator\Model\FieldsCategoriesModel $fieldGroupsModel */
-        $fieldsCategoriesModel = HandoverComponent::getContainer()
-            ->get(MVCFactoryInterface::class)->createModel('FieldsCategories', 'Administrator', ['ignore_request' => true]);
-        $this->exportType('fields_categories', $fieldsCategoriesModel, 'fields_categories.json', $outputDir);
 
         // Field groups
         /** @var \Joomla\Component\Fields\Administrator\Model\GroupsModel $fieldGroupsModel */

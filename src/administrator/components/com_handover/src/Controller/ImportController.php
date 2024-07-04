@@ -22,7 +22,7 @@ class ImportController extends BaseController
     {
         /** @var ImportModel $model */
         $model = $this->getModel();
-        $model->setState('inputDir', JPATH_SITE . '/tmp');
+        $model->setState('importFiles', $this->app->getInput()->files->get('jform', [], 'RAW'));
         $model->import();
 
         $this->goHome();

@@ -12,27 +12,45 @@ namespace Obix\Component\Handover\Administrator\Model;
 
 \defined('_JEXEC') or die;
 
-use Joomla\CMS\MVC\Model\BaseDatabaseModel;
+use Joomla\CMS\Form\Form;
+use Joomla\CMS\MVC\Model\FormModel;
 use Obix\Component\Handover\Administrator\Extension\Handover\Importer\ImporterFactory;
+use Obix\Component\Handover\Administrator\Extension\Upload\Handler;
 
-class ImportModel extends BaseDatabaseModel
+class ImportModel extends FormModel
 {
     public function import(): void
     {
-        $inputDir = $this->getState('inputDir');
+        // Get uploaded files from request.
+        if (!count($files = $this->getState('importFiles', []))) {
+            return;
+        }
 
-        $iterator = new \GlobIterator($inputDir . '/*.json');
+        $handlers = Handler::handle($files, $this->getForm([], false));
 
         $db = $this->getDatabase();
 
         try {
             $db->transactionStart();
 
-            foreach ($iterator as $file) {
-                $handoverObject = json_decode(file_get_contents($file->getPathname()), false, 512, JSON_THROW_ON_ERROR);
+            foreach ($handlers as $fieldName => $handler) {
+                $uploadedFiles = $handler->getSuccesful();
 
-                if ($type = $handoverObject?->type ?? null) {
-                    $this->importType($type, $handoverObject->data);
+                if (!count($uploadedFiles)) {
+                    continue;
+                }
+
+                foreach ($handler->getUploadedFiles() as $uploadedFile) {
+                    $handoverObject = json_decode(
+                        file_get_contents($uploadedFile['dest_path']),
+                        false,
+                        512,
+                        JSON_THROW_ON_ERROR
+                    );
+
+                    if ($type = $handoverObject?->type ?? null) {
+                        $this->importType($type, $handoverObject->data);
+                    }
                 }
             }
 
@@ -48,5 +66,15 @@ class ImportModel extends BaseDatabaseModel
     {
         $importer = ImporterFactory::createImporter($type);
         $importer->import($data);
+    }
+
+    public function getForm($data = [], $loadData = true): Form|null
+    {
+        if (!($form = $this->loadForm('com_handover.import', 'import', ['control' => 'jform', 'load_data' => $loadData]
+        ))) {
+            return null;
+        }
+
+        return $form;
     }
 }

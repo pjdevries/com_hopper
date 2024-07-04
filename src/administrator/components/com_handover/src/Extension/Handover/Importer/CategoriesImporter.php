@@ -64,6 +64,7 @@ class CategoriesImporter extends BaseImporter implements ImporterInterface
     private function save(object $category): int
     {
         $data = [
+            'id' => $category->id,
             'parent_id' => $category->parent_id,
             'extension' => $category->extension,
             'title' => $category->title,

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Obix\Component\Handover\Administrator\Field">
+    <field name="importFiles"
+           type="upload"
+           label="COM_HANDOVER_IMPORT_FORM_FIELD_FILES_LABEL"
+           description="COM_HANDOVER_IMPORT_FORM_FIELD_FOLDER_DESC"
+           maxuploadsize="2M"
+    />
+</form>
