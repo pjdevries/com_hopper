@@ -29,7 +29,6 @@
     <media folder="media/com_handover" destination="com_handover">
         <folder>css</folder>
         <folder>js</folder>
-        <folder>images</folder>
         <file>joomla.asset.json</file>
     </media>
 </extension>
