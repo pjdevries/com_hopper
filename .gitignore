@@ -19,3 +19,4 @@
 .tar
 .tar.gz
 
+/packages
