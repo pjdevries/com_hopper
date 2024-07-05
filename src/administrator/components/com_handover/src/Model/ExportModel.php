@@ -16,6 +16,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\BaseModel;
 use Obix\Component\Handover\Administrator\Extension\Handover\ExportFile;
+use Obix\Component\Handover\Administrator\Extension\Handover\HandoverType;
 use Obix\Component\Handover\Administrator\Extension\HandoverComponent;
 
 class ExportModel extends BaseModel
@@ -28,7 +29,7 @@ class ExportModel extends BaseModel
         /** @var \Obix\Component\Handover\Administrator\Model\FieldsCategoriesModel $fieldGroupsModel */
         $fieldsCategoriesModel = HandoverComponent::getContainer()
             ->get(MVCFactoryInterface::class)->createModel('FieldsCategories', 'Administrator', ['ignore_request' => true]);
-        $this->exportType('fields_categories', $fieldCategories = $fieldsCategoriesModel->getItems(), 'fields_categories.json', $outputDir);
+        $this->exportType(HandoverType::FieldCategories, $fieldCategories = $fieldsCategoriesModel->getItems(), 'fields_categories.json', $outputDir);
 
         // Categories
         /** @var \Obix\Component\Handover\Administrator\Model\CategoriesModel $categoriesModel */
@@ -36,7 +37,7 @@ class ExportModel extends BaseModel
             ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
-        $this->exportType('categories', $categoriesModel->getItems(), 'categories.json', $outputDir);
+        $this->exportType(HandoverType::Categories, $categoriesModel->getItems(), 'categories.json', $outputDir);
 
         // Field groups
         /** @var \Joomla\Component\Fields\Administrator\Model\GroupsModel $fieldGroupsModel */
@@ -44,17 +45,17 @@ class ExportModel extends BaseModel
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $fieldGroupsModel->setState('filter.context', '');
         $fieldGroupsModel->setState('list.select', 'a.*');
-        $this->exportType('fields_groups', $fieldGroupsModel->getItems(), 'fields_groups.json', $outputDir);
+        $this->exportType(HandoverType::FieldGroups, $fieldGroupsModel->getItems(), 'fields_groups.json', $outputDir);
 
         // Fields
         /** @var \Joomla\Component\Fields\Administrator\Model\FieldsModel $fieldsModel */
         $fieldsModel = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
         $fieldsModel->setState('list.select', 'a.*');
-        $this->exportType('fields', $fieldsModel->getItems(), 'fields.json', $outputDir);
+        $this->exportType(HandoverType::Fields, $fieldsModel->getItems(), 'fields.json', $outputDir);
     }
 
-    private function exportType(string $type, array $items, string $outputFile, $outputDir): void
+    private function exportType(HandoverType $type, array $items, string $outputFile, $outputDir): void
     {
         $handoverFile = new ExportFile($outputFile, $outputDir);
 

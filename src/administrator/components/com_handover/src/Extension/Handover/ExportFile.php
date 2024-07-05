@@ -26,12 +26,12 @@ class ExportFile
         $this->outputPath = rtrim($outputDir, '\\/') . '/' . $ouputFile;
     }
 
-    public function export(string $type, array $items): void
+    public function export(HandoverType $type, array $items): void
     {
         $this->delete();
 
         if (file_put_contents($this->outputPath, json_encode([
-                'type' => $type,
+                'type' => $type->value,
                 'data' => $items
             ], JSON_PRETTY_PRINT)) === false) {
             $error = error_get_last();
