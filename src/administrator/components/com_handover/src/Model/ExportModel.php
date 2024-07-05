@@ -41,7 +41,7 @@ class ExportModel extends BaseModel
         $this->exportType(
             HandoverType::FieldCategories,
             $fieldCategories = $fieldsCategoriesModel->getItems(),
-            'fields_categories.json',
+            HandoverType::FieldCategories->toFileName(),
             $outputDir
         );
 
@@ -51,7 +51,7 @@ class ExportModel extends BaseModel
             ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
-        $this->exportType(HandoverType::Categories, $categoriesModel->getItems(), 'categories.json', $outputDir);
+        $this->exportType(HandoverType::Categories, $categoriesModel->getItems(), HandoverType::Categories->toFileName(), $outputDir);
 
         // Field groups
         /** @var GroupsModel $fieldGroupsModel */
@@ -59,14 +59,14 @@ class ExportModel extends BaseModel
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $fieldGroupsModel->setState('filter.context', '');
         $fieldGroupsModel->setState('list.select', 'a.*');
-        $this->exportType(HandoverType::FieldGroups, $fieldGroupsModel->getItems(), 'fields_groups.json', $outputDir);
+        $this->exportType(HandoverType::FieldGroups, $fieldGroupsModel->getItems(), HandoverType::FieldGroups->toFileName(), $outputDir);
 
         // Fields
         /** @var FieldsModel $fieldsModel */
         $fieldsModel = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
         $fieldsModel->setState('list.select', 'a.*');
-        $this->exportType(HandoverType::Fields, $fieldsModel->getItems(), 'fields.json', $outputDir);
+        $this->exportType(HandoverType::Fields, $fieldsModel->getItems(), HandoverType::Fields->toFileName(), $outputDir);
     }
 
     private function exportType(HandoverType $type, array $items, string $outputFile, $outputDir): void

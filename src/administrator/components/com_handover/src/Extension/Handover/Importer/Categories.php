@@ -17,7 +17,7 @@ use RuntimeException;
 
 use function defined;
 
-class CategoriesImporter extends BaseImporter implements ImporterInterface
+class Categories implements ImporterInterface
 {
     private CategoryModel $model;
 

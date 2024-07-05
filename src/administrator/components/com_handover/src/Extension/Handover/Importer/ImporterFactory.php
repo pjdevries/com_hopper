@@ -11,6 +11,7 @@
 namespace Obix\Component\Handover\Administrator\Extension\Handover\Importer;
 
 use Joomla\CMS\Factory;
+use Obix\Component\Handover\Administrator\Extension\Handover\HandoverType;
 
 use function defined;
 
@@ -18,12 +19,20 @@ defined('_JEXEC') or die;
 
 class ImporterFactory
 {
-    public static function createImporter(string $type): ImporterInterface
+    public static function createImporter(HandoverType $type): ImporterInterface
     {
         return match ($type) {
-            'categories' => new CategoriesImporter(
+            HandoverType::Categories => new Categories(
                 Factory::getApplication()->bootComponent('com_categories')
                     ->getMVCFactory()->createModel('Category', 'Administrator', ['ignore_request' => true])
+            ),
+            HandoverType::FieldGroups => new FieldGroups(
+                Factory::getApplication()->bootComponent('com_fields')
+                    ->getMVCFactory()->createModel('Group', 'Administrator', ['ignore_request' => true])
+            ),
+            HandoverType::Fields => new Fields(
+                Factory::getApplication()->bootComponent('com_fields')
+                    ->getMVCFactory()->createModel('Field', 'Administrator', ['ignore_request' => true])
             )
         };
     }

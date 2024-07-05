@@ -16,4 +16,9 @@ enum HandoverType: string
     case Categories = 'categories';
     case FieldGroups = 'fields_groups';
     case Fields = 'fields';
+
+    public function toFileName(): string
+    {
+        return $this->value . '.json';
+    }
 }

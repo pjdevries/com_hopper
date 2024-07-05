@@ -10,11 +10,17 @@
 
 namespace Obix\Component\Handover\Administrator\Extension\Handover\Importer;
 
-use function defined;
+use Joomla\Component\Fields\Administrator\Model\GroupModel;
+use Obix\Component\Handover\Administrator\Extension\Handover\Importer\ImporterInterface;
 
-defined('_JEXEC') or die;
+\defined('_JEXEC') or die;
 
-class BaseImporter
+class FieldCategories implements ImporterInterface
 {
+    private GroupModel $model;
 
+    public function import(array $data): void
+    {
+        // TODO: Implement import() method.
+    }
 }
