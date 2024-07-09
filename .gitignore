@@ -20,5 +20,5 @@
 .tar.gz
 
 /packages
-/src/administrator/components/com_handover/packages/export
-/src/administrator/components/com_handover/packages/import
+/src/administrator/components/com_hopper/packages/export
+/src/administrator/components/com_hopper/packages/import

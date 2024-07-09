@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="package" method="upgrade">
+    <name>Hopper package</name>
+    <packagename>hopper</packagename>
+    <creationDate>{{creationDate}}</creationDate>
+    <author>{{author}}</author>
+    <authorEmail>{{authorEmail}}</authorEmail>
+    <authorUrl>{{authorUrl}}</authorUrl>
+    <copyright>{{copyright}}</copyright>
+    <license>{{license}}</license>
+    <version>{{version}}</version>
+    <description>{{description}}</description>
+
+    <files>
+        <file type="file" id="hopper_import_files">{{filesPackage}}</file>
+        <file type="component" id="com_hopper">{{componentPackage}}</file>
+    </files>
+</extension>

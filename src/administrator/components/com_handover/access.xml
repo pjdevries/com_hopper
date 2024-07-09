@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<access component="com_handover">
-    <section name="component">
-        <action name="core.admin" title="JACTION_ADMIN"/>
-        <action name="core.options" title="JACTION_OPTIONS"/>
-        <action name="core.export" title="COM_HANDOVER_ACTION_EXPORT"/>
-        <action name="core.import" title="COM_HANDOVER_ACTION_IMPORT"/>
-    </section>
-</access>

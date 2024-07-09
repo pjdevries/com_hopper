@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
+  "name": "com_hopper",
+  "version": "CVS: 1.0.0",
+  "license": "GNU General Public License version 3 or later; see LICENSE.txt",
+  "assets": [
+    {
+      "name": "com_hopper.admin",
+      "type": "style",
+      "uri": "com_hopper/admin.css"
+    },
+    {
+      "name": "com_hopper.admin",
+      "type": "script",
+      "uri": "com_hopper/admin.js",
+      "dependencies": [
+      ],
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "upload-css",
+      "type": "style",
+      "uri": "com_hopper/upload.css"
+    },
+    {
+      "name": "upload-js",
+      "type": "script",
+      "uri": "com_hopper/upload.js",
+      "attributes": {
+        "defer": true
+      }
+    },
+    {
+      "name": "upload",
+      "type": "preset",
+      "dependencies": [
+        "upload-css#style",
+        "upload-js#script"
+      ]
+    }
+  ]
+}

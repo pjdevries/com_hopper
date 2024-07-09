@@ -5,7 +5,7 @@ packageDir=$baseDir/packages
 exclude=".git .gitignore \*update*.xml"
 
 cd $baseDir
-name=handover
+name=hopper
 componentName=com_$name
 version=$(grep '<version>' $srcDir/administrator/components/$componentName/$name.xml | sed -r 's#^\s*<version>(.*)</version>\s*$#\1#')
 componentVersionName=$componentName-$version

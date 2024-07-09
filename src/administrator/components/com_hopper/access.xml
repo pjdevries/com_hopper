@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<access component="com_hopper">
+    <section name="component">
+        <action name="core.admin" title="JACTION_ADMIN"/>
+        <action name="core.options" title="JACTION_OPTIONS"/>
+        <action name="core.export" title="COM_HOPPER_ACTION_EXPORT"/>
+        <action name="core.import" title="COM_HOPPER_ACTION_IMPORT"/>
+    </section>
+</access>

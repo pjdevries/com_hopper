@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension type="file" method="upgrade">
+    <name>File - Hopper import files</name>
+    <creationDate>{{creationDate}}</creationDate>
+    <author>{{author}}</author>
+    <authorEmail>{{authorEmail}}</authorEmail>
+    <authorUrl>{{authorUrl}}</authorUrl>
+    <copyright>{{copyright}}</copyright>
+    <license>{{license}}</license>
+    <version>{{version}}</version>
+    <description>{{description}}</description>
+
+    <fileset>
+        <files target="{{filesTarget}}">
+            <folder>{{filesFolder}}</folder>
+        </files>
+    </fileset>
+</extension>
