@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="package" method="upgrade">
-    <name>Package - Handover package</name>
+    <name>Handover package</name>
     <packagename>handover</packagename>
     <creationDate>{{creationDate}}</creationDate>
     <author>{{author}}</author>
@@ -12,7 +12,7 @@
     <description>{{description}}</description>
 
     <files>
-        <file type="component" id="com_handover">{{componentPackage}}</file>
         <file type="file" id="handover_import_files">{{filesPackage}}</file>
+        <file type="component" id="com_handover">{{componentPackage}}</file>
     </files>
 </extension>

@@ -21,11 +21,14 @@ class PackageManifestAttributes implements ManifestAttributesInterface
 {
     private string $version;
 
+    private Settings $settings;
+
     /**
      * @param Settings $version
      */
-    public function __construct(string $version = '1.0.0')
+    public function __construct(Settings $settings, string $version = '1.0.0')
     {
+        $this->settings = $settings;
         $this->version = $version;
     }
 

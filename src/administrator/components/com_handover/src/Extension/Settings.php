@@ -47,6 +47,16 @@ class Settings
         return self::packagesFolder() . '/export/files';
     }
 
+    public function importFolder(): string
+    {
+        return self::packagesFolder() . '/import';
+    }
+
+    public function importFilesFolder(): string
+    {
+        return self::packagesFolder() . '/import/files';
+    }
+
     public function manifestTemplatesFolder(): string
     {
         return self::packagesFolder() . '/manifest_templates';

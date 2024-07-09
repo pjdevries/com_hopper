@@ -18,6 +18,7 @@ use Obix\Component\Handover\Administrator\Extension\Package\ComponentPackage;
 use Obix\Component\Handover\Administrator\Extension\Package\FilesPackage;
 use Obix\Component\Handover\Administrator\Extension\Package\Manifest\FilesManifestAttributes;
 use Obix\Component\Handover\Administrator\Extension\Package\Manifest\Manifest;
+use Obix\Component\Handover\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
 use Obix\Component\Handover\Administrator\Extension\Package\Package;
 use Obix\Component\Handover\Administrator\Extension\Settings;
 use Obix\Component\Handover\Administrator\Model\ExportModel;
@@ -40,9 +41,9 @@ class ExportController extends BaseController
 
         $model->export($settings);
 
-        (new FilesPackage($settings))->create($version);
+        (new FilesPackage($settings, new Manifest(new FilesManifestAttributes($settings, $version))))->create($version);
         (new ComponentPackage($settings))->create();
-        (new Package($settings))->create();
+        (new Package($settings, new Manifest(new PackageManifestAttributes($settings, $version))))->create();
 
         $this->goHome();
     }

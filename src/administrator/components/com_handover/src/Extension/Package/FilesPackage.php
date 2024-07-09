@@ -21,17 +21,20 @@ class FilesPackage
 {
     private Settings $settings;
 
+    private Manifest $manifest;
+
     /**
      * @param Settings $settings
      */
-    public function __construct(Settings $settings)
+    public function __construct(Settings $settings, Manifest $manifest)
     {
         $this->settings = $settings;
+        $this->manifest = $manifest;
     }
 
     public function create(string $version = '1.0.0'): void
     {
-        (new Manifest(new FilesManifestAttributes($version)))->generate(
+        $this->manifest->generate(
             $this->settings->manifestTemplatesFolder() . '/handover_import_files_manifest.template.xml',
             $this->settings->exportFolder() . '/handover_import_files.xml'
         );

@@ -22,19 +22,22 @@ class Package
 {
     private Settings $settings;
 
+    private Manifest $manifest;
+
     /**
      * @param Settings $settings
      */
-    public function __construct(Settings $settings)
+    public function __construct(Settings $settings, Manifest $manifest)
     {
         $this->settings = $settings;
+        $this->manifest = $manifest;
     }
 
     public function create(string $version = '1.0.0'): void
     {
         $componentVersion = ComponentHelper::getComponentVersion('com_handover');
 
-        (new Manifest(new PackageManifestAttributes($version)))->generate(
+        $this->manifest->generate(
             $this->settings->manifestTemplatesFolder() . '/package_manifest.template.xml',
             $this->settings->packagesFolder() . '/pkg_handover.xml'
         );
