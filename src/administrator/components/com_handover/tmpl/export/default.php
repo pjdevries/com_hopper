@@ -26,10 +26,9 @@ $formAction = Route::_('index.php?option=com_handover&task=export.export');
     <div>
         <div class="row">
             <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-6">
-                        Here comes stuff to control the export.
-                    </div>
+                <div class="version-wrapper">
+                    <?php
+                    echo $this->form->renderField('version'); ?>
                 </div>
             </div>
         </div>

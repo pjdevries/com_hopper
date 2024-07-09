@@ -14,21 +14,32 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
-use Joomla\CMS\MVC\Model\BaseModel;
+use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Component\Fields\Administrator\Model\GroupsModel;
 use Obix\Component\Handover\Administrator\Extension\Handover\ExportFile;
 use Obix\Component\Handover\Administrator\Extension\Handover\HandoverType;
 use Obix\Component\Handover\Administrator\Extension\HandoverComponent;
+use Obix\Component\Handover\Administrator\Extension\Settings;
 
 use function defined;
 
-class ExportModel extends BaseModel
+class ExportModel extends FormModel
 {
-    public function export(): void
+    private Settings $settings;
+
+    public function export(Settings $settings): void
     {
-        $outputDir = $this->getState('outputDir', JPATH_SITE . '/tmp');
+        $this->settings = $settings;
+
+        $this->createImportFiles();
+    }
+
+    private function createImportFiles(): void
+    {
+        $outputDir = $this->settings->exportFilesFolder();
 
         // Field categories
         /** @var FieldsCategoriesModel $fieldGroupsModel */
@@ -38,7 +49,7 @@ class ExportModel extends BaseModel
                 'Administrator',
                 ['ignore_request' => true]
             );
-        $this->exportType(
+        $this->createImportFileForType(
             HandoverType::FieldCategories,
             $fieldCategories = $fieldsCategoriesModel->getItems(),
             HandoverType::FieldCategories->toFileName(),
@@ -51,7 +62,12 @@ class ExportModel extends BaseModel
             ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
-        $this->exportType(HandoverType::Categories, $categoriesModel->getItems(), HandoverType::Categories->toFileName(), $outputDir);
+        $this->createImportFileForType(
+            HandoverType::Categories,
+            $categoriesModel->getItems(),
+            HandoverType::Categories->toFileName(),
+            $outputDir
+        );
 
         // Field groups
         /** @var GroupsModel $fieldGroupsModel */
@@ -59,17 +75,27 @@ class ExportModel extends BaseModel
             ->getMVCFactory()->createModel('Groups', 'Administrator', ['ignore_request' => true]);
         $fieldGroupsModel->setState('filter.context', '');
         $fieldGroupsModel->setState('list.select', 'a.*');
-        $this->exportType(HandoverType::FieldGroups, $fieldGroupsModel->getItems(), HandoverType::FieldGroups->toFileName(), $outputDir);
+        $this->createImportFileForType(
+            HandoverType::FieldGroups,
+            $fieldGroupsModel->getItems(),
+            HandoverType::FieldGroups->toFileName(),
+            $outputDir
+        );
 
         // Fields
         /** @var FieldsModel $fieldsModel */
         $fieldsModel = Factory::getApplication()->bootComponent('com_fields')
             ->getMVCFactory()->createModel('Fields', 'Administrator', ['ignore_request' => true]);
         $fieldsModel->setState('list.select', 'a.*');
-        $this->exportType(HandoverType::Fields, $fieldsModel->getItems(), HandoverType::Fields->toFileName(), $outputDir);
+        $this->createImportFileForType(
+            HandoverType::Fields,
+            $fieldsModel->getItems(),
+            HandoverType::Fields->toFileName(),
+            $outputDir
+        );
     }
 
-    private function exportType(HandoverType $type, array $items, string $outputFile, $outputDir): void
+    private function createImportFileForType(HandoverType $type, array $items, string $outputFile, $outputDir): void
     {
         $handoverFile = new ExportFile($outputFile, $outputDir);
 
@@ -80,5 +106,15 @@ class ExportModel extends BaseModel
 
             throw $e;
         }
+    }
+
+    public function getForm($data = [], $loadData = true): Form|null
+    {
+        if (!($form = $this->loadForm('com_handover.export', 'export', ['control' => 'jform', 'load_data' => $loadData]
+        ))) {
+            return null;
+        }
+
+        return $form;
     }
 }

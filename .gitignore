@@ -20,3 +20,5 @@
 .tar.gz
 
 /packages
+/src/administrator/components/com_handover/packages/export
+/src/administrator/components/com_handover/packages/import

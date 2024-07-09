@@ -25,7 +25,6 @@ use function defined;
 class HtmlView extends BaseHtmlView
 {
     protected ?Form $form = null;
-
     public function display($tpl = null): void
     {
         $this->form = $this->getForm();

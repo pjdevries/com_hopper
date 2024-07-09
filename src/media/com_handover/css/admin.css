@@ -9,3 +9,18 @@
 .icon-import:before {
     content: "";
 }
+
+.version-wrapper .subform-wrapper {
+    display: flex;
+
+}
+
+.version-wrapper .subform-wrapper .control-group {
+    display: flex;
+    flex-direction: column;
+    width: 90px;
+}
+
+.version-wrapper .subform-wrapper .control-group input {
+    width: 80px
+}

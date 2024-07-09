@@ -18,6 +18,8 @@ use function defined;
 
 class ExportFile
 {
+    private string $outputDir;
+
     private string $outputPath;
 
     /**
@@ -25,11 +27,13 @@ class ExportFile
      */
     public function __construct(string $ouputFile, string $outputDir = JPATH_SITE . '/tmp')
     {
-        $this->outputPath = rtrim($outputDir, '\\/') . '/' . $ouputFile;
+        $this->outputDir = rtrim($outputDir, '\\/');
+        $this->outputPath = $this->outputDir . '/' . $ouputFile;
     }
 
     public function export(HandoverType $type, array $items): void
     {
+        $this->mkDir();
         $this->delete();
 
         if (file_put_contents($this->outputPath, json_encode([
@@ -41,17 +45,23 @@ class ExportFile
         }
     }
 
-    public function delete(): bool
+    private function mkDir(): void
+    {
+        if (!file_exists($this->outputDir) && !mkdir($this->outputDir, 0755, true)) {
+            $error = error_get_last();
+            throw new RuntimeException($error['message'], $error['type']);
+        }
+    }
+
+    public function delete(): void
     {
         if (!file_exists($this->outputPath)) {
-            return true;
+            return;
         }
 
         if (!unlink($this->outputPath)) {
             $error = error_get_last();
             throw new RuntimeException($error['message'], $error['type']);
         }
-
-        return true;
     }
 }

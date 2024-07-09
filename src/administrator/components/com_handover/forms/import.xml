@@ -3,7 +3,7 @@
     <field name="importFiles"
            type="upload"
            label="COM_HANDOVER_IMPORT_FORM_FIELD_FILES_LABEL"
-           description="COM_HANDOVER_IMPORT_FORM_FIELD_FOLDER_DESC"
+           description="COM_HANDOVER_IMPORT_FORM_FIELD_FILES_DESC"
            maxuploadsize="2M"
            replaceIfExists="true"
     />

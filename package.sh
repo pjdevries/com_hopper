@@ -17,6 +17,6 @@ cd $srcDir
 zip -r $versionDir/$componentVersionName.zip \
   administrator/components/$componentName \
   media/$componentName \
-  --exclude $exclude
+  --exclude $exclude administrator/components/$componentName/packages
 cd  $srcDir/administrator/components/$componentName
 zip $versionDir/$componentVersionName.zip $name.xml
