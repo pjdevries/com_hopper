@@ -16,6 +16,9 @@ aims to make that possible.
 - Joomla! 5.1.x
 - PHP 8.1
 
+The extension is developed and (not very well) tested on Joomla! 5.1.x. It will most likely also work on Joomla! 4.x,
+but it hasn't been tried there.
+
 ## Installation and configuration ##
 
 Installation is the same as for any other Joomla extension. In its current form, it requires no configuration.
@@ -29,7 +32,13 @@ Joomla! sites.
 is ill-advised to import data into websites that are not empty. Only import data into new, empty, and freshly installed
 Joomla! websites.*
 
-In its current form, the component's functionality is quite limited and rudimentary, and it has not been extensively tested.  
+In its current form, the component's functionality is quite limited and rudimentary, and it has not been extensively
+tested.
 
 > “From then on, when anything went wrong with a computer, we said it had bugs in it.”
 _(Grace Hopper)_
+
+Notwithstanding the above, an effort has been made to make the component as robust as possible. However, Joomla itself
+does not allow us to make it as fail-safe as we would like. As a result, if an error occurs during the import phase, the
+imported data will most likely not be consistent. This can not be remedied by performing the import a second time.
+First, all dat that was already imported must be removed. While doing so, don't forget to empty the **Trash**.
