@@ -11,6 +11,8 @@
     <version>{{version}}</version>
     <description>{{description}}</description>
 
+    <scriptfile>script.php</scriptfile>
+
     <files>
         <file type="file" id="hopper_import_files">{{filesPackage}}</file>
         <file type="component" id="com_hopper">{{componentPackage}}</file>

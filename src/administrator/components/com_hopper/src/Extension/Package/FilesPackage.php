@@ -36,15 +36,15 @@ class FilesPackage
     {
         $this->manifest->generate(
             $this->settings->manifestTemplatesFolder() . '/hopper_import_files_manifest.template.xml',
-            $this->settings->exportFolder() . '/hopper_import_files.xml'
+            $this->settings->exportFolder($version) . '/hopper_import_files.xml'
         );
 
         $archive = new ZipArchive();
 
         $archive->open($this->settings->packagesFolder() . '/hopper_import_files-' . $version . '.zip', ZipArchive::OVERWRITE | ZipArchive::CREATE);
 
-        $archive->addFile($this->settings->exportFolder() . '/hopper_import_files.xml', 'hopper_import_files.xml');
-        $archive->addGlob($this->settings->exportFilesFolder() . '/*', 0, ['add_path' => 'files/', 'remove_all_path' => TRUE]);
+        $archive->addFile($this->settings->exportFolder($version) . '/hopper_import_files.xml', 'hopper_import_files.xml');
+        $archive->addGlob($this->settings->exportFilesFolder($version) . '/*', 0, ['add_path' => basename($this->settings->exportFilesFolder($version)) . '/', 'remove_all_path' => TRUE]);
 
         $archive->close();
     }

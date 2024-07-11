@@ -44,9 +44,14 @@ class ImportModel extends FormModel
             return;
         }
 
-        $uploadedFiles = $this->verifyUploadedFiles($uploadedFiles);
+        $verifiedFiles = $this->verifyUploadedFiles($uploadedFiles);
 
-//        $db = $this->getDatabase();
+        $this->importFiles($verifiedFiles);
+    }
+
+    public function importFiles(array $files, ...$args): void
+    {
+        //        $db = $this->getDatabase();
 
         try {
 //            $db->transactionStart();
@@ -55,8 +60,8 @@ class ImportModel extends FormModel
             $fieldGroupIdMap = [];
             $fieldCategories = [];
 
-            if (isset($uploadedFiles[HopperType::FieldCategories->value])) {
-                $data = $this->importData($uploadedFiles[HopperType::FieldCategories->value]['dest_path']);
+            if (isset($files[HopperType::FieldCategories->value])) {
+                $data = $this->importData($files[HopperType::FieldCategories->value]);
 
                 $fieldCategories = array_reduce($data, function (array $carry, $item) {
                     $carry[$item->field_id][] = $item->category_id;
@@ -65,27 +70,27 @@ class ImportModel extends FormModel
                 }, []);
             }
 
-            if (isset($uploadedFiles[HopperType::Categories->value])) {
+            if (isset($files[HopperType::Categories->value])) {
                 /** @var Categories $categoriesImporter */
                 $categoriesImporter = ImporterFactory::createImporter(HopperType::Categories);
-                $categoriesImporter->import($this->importData($uploadedFiles[HopperType::Categories->value]['dest_path']));
+                $categoriesImporter->import($this->importData($files[HopperType::Categories->value]));
                 $categoryIdMap = $categoriesImporter->getIdMap();
             }
 
-            if (isset($uploadedFiles[HopperType::FieldGroups->value])) {
+            if (isset($files[HopperType::FieldGroups->value])) {
                 /** @var FieldGroups $fieldGroupsImporter */
                 $fieldGroupsImporter = ImporterFactory::createImporter(HopperType::FieldGroups);
-                $fieldGroupsImporter->import($this->importData($uploadedFiles[HopperType::FieldGroups->value]['dest_path']));
+                $fieldGroupsImporter->import($this->importData($files[HopperType::FieldGroups->value]));
                 $fieldGroupIdMap = $fieldGroupsImporter->getIdMap();
             }
 
-            if (isset($uploadedFiles[HopperType::Fields->value])) {
+            if (isset($files[HopperType::Fields->value])) {
                 /** @var Fields $fieldsImporter */
                 $fieldsImporter = ImporterFactory::createImporter(HopperType::Fields)
                     ->setGroupIdMap($fieldGroupIdMap)
                     ->setCategoryIdMap($categoryIdMap)
                     ->setFieldCategories($fieldCategories);
-                $fieldsImporter->import($this->importData($uploadedFiles[HopperType::Fields->value]['dest_path']));
+                $fieldsImporter->import($this->importData($files[HopperType::Fields->value]));
             }
 
 //            $db->transactionCommit();
@@ -126,7 +131,7 @@ class ImportModel extends FormModel
                 throw new \RuntimeException(Text::sprintf('COM_HOPPER_IMPORT_UPLOAD_DUPLICATE_TYPE', $uploadedFile['name']));
             }
 
-            $filesByType[$type] = $uploadedFile;
+            $filesByType[$type] = $uploadedFile['dest_path'];
         }
 
         return $filesByType;

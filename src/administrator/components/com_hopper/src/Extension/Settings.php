@@ -24,7 +24,7 @@ class Settings
      */
     public function packagesFolder(): string
     {
-        return JPATH_COMPONENT_ADMINISTRATOR . '/packages';
+        return JPATH_ADMINISTRATOR . '/components/com_hopper/packages';
     }
 
     /**
@@ -32,9 +32,9 @@ class Settings
      *
      * @return string
      */
-    public function exportFolder(): string
+    public function exportFolder(string $version): string
     {
-        return self::packagesFolder() . '/export';
+        return self::packagesFolder() . '/export/' . $version;
     }
 
     /**
@@ -42,23 +42,28 @@ class Settings
      *
      * @return string
      */
-    public function exportFilesFolder(): string
+    public function exportFilesFolder(string $version): string
     {
-        return self::packagesFolder() . '/export/files';
+        return self::exportFolder($version) . '/files';
     }
 
-    public function importFolder(): string
+    public function importFolder(string $version): string
     {
-        return self::packagesFolder() . '/import';
+        return self::packagesFolder() . '/import/' . $version;
     }
 
-    public function importFilesFolder(): string
+    public function importFilesFolder(string $version): string
     {
-        return self::packagesFolder() . '/import/files';
+        return self::importFolder($version) . '/files';
     }
 
     public function manifestTemplatesFolder(): string
     {
         return self::packagesFolder() . '/manifest_templates';
+    }
+
+    public function scriptsFolder(): string
+    {
+        return self::packagesFolder() . '/scripts';
     }
 }

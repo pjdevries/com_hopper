@@ -39,7 +39,8 @@ class ExportModel extends FormModel
 
     private function createImportFiles(): void
     {
-        $outputDir = $this->settings->exportFilesFolder();
+        $version = $this->getState('version', '1.0.0');
+        $outputDir = $this->settings->exportFilesFolder($version);
 
         // Field categories
         /** @var FieldsCategoriesModel $fieldGroupsModel */
@@ -64,7 +65,7 @@ class ExportModel extends FormModel
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
         $this->createImportFileForType(
             HopperType::Categories,
-            $categoriesModel->getItems(),
+            $categoriesModel->getItems(true),
             HopperType::Categories->toFileName(),
             $outputDir
         );

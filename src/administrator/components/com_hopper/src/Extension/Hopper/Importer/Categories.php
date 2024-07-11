@@ -31,7 +31,7 @@ class Categories implements ImporterInterface
 
     public function import(array $data): void
     {
-        usort($data, fn(object $c1, object $c2) => $c1->parent <=> $c2->parent);
+        usort($data, fn(object $c1, object $c2) => $c1->parent_id <=> $c2->parent_id);
 
         foreach ($data as $category) {
             $category->parent_id = $this->idMap[$category->parent_id] ?? 1;
@@ -41,6 +41,7 @@ class Categories implements ImporterInterface
             }
 
             $this->idMap[(int)$category->id] = $id;
+            $category->id = $id;
         }
 
         $this->fixAssociations($data, $this->idMap);
@@ -49,8 +50,7 @@ class Categories implements ImporterInterface
     private function fixAssociations(array $data, array $idMap): void
     {
         foreach ($data as $category) {
-            $data = [
-                'associations' => array_reduce(
+            $category->associations = array_reduce(
                     array_keys((array)$category->associations),
                     function (array $carry, string $lang) use ($category, $idMap) {
                         $carry[$lang] = $idMap[(int)$category->associations->$lang];
@@ -58,10 +58,9 @@ class Categories implements ImporterInterface
                         return $carry;
                     },
                     []
-                )
-            ];
+                );
 
-            if (!$this->model->save($data)) {
+            if (!$this->model->save((array) $category)) {
                 throw new RuntimeException($this->model->getError());
             }
         }
@@ -75,7 +74,6 @@ class Categories implements ImporterInterface
             'extension' => $category->extension,
             'title' => $category->title,
             'alias' => $category->alias,
-            'version_note' => $category->version_note,
             'note' => $category->note,
             'description' => $category->description,
             'published' => $category->published,

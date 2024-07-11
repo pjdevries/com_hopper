@@ -39,6 +39,7 @@ class ExportController extends BaseController
             $this->app->getInput()->get('jform', ['major' => '1', 'minor' => '0', 'patch' => '0'])['version']
         );
 
+        $model->setState('version', $version);
         $model->export($settings);
 
         (new FilesPackage($settings, new Manifest(new FilesManifestAttributes($settings, $version))))->create($version);

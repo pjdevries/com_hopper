@@ -20,8 +20,12 @@ use function is_array;
 
 class CategoriesModel extends BaseCategoriesModel
 {
-    public function getItems()
+    public function getItems(int $limitToFieldCategories = 0)
     {
+        $this->setState('filter.limit_to_field_categories', $limitToFieldCategories);
+
+        $this->limitToFieldCategories = $limitToFieldCategories;
+
         $items = parent::getItems();
 
         foreach ($items as &$item) {
@@ -74,6 +78,20 @@ class CategoriesModel extends BaseCategoriesModel
         $query = parent::getListQuery();
         $query->select('\'{}\' AS associations');
 
+        $limitToFieldCategories = (int)$this->getState('filter.limit_to_field_categories', 0);
+
+        if ($limitToFieldCategories) {
+            $subQuery = $db->getQuery(true)
+                ->select('DISTINCT ' . $db->quoteName('category_id'))
+                ->from($db->quoteName('#__fields_categories'));
+
+            $query->join(
+                'INNER',
+                '(' . $subQuery . ') AS ' . $db->quoteName('fg'),
+                $db->quoteName('fg.category_id') . ' = ' . $db->quoteName('a.id')
+            );
+        }
+
         $id = $this->getState('filter.id', []);
 
         if (!is_array($id)) {
@@ -90,6 +108,7 @@ class CategoriesModel extends BaseCategoriesModel
     protected function getStoreId($id = '')
     {
         // Add the list state to the store id.
+        $id .= ':' . $this->getState('filter.for_fields');
         $id .= ':' . serialize($this->getState('filter.id', []));
         $id .= ':' . $this->getState('list.start');
         $id .= ':' . $this->getState('list.limit');

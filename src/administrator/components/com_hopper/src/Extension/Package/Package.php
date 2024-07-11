@@ -49,6 +49,7 @@ class Package
         $archive->addFile($this->settings->packagesFolder() . '/pkg_hopper.xml',  'pkg_hopper.xml');
         $archive->addFile($this->settings->packagesFolder() . '/com_hopper-' . $componentVersion . '.zip',  'com_hopper-' . $componentVersion . '.zip');
         $archive->addFile($this->settings->packagesFolder() . '/hopper_import_files-' . $version . '.zip',  'hopper_import_files-' . $version . '.zip');
+        $archive->addFile($this->settings->scriptsFolder() . '/package_script.php',  'script.php');
 
         $archive->close();
     }
