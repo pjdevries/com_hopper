@@ -44,8 +44,7 @@ class ExportModel extends FormModel
 
         // Field categories
         /** @var FieldsCategoriesModel $fieldGroupsModel */
-        $fieldsCategoriesModel = HopperComponent::getContainer()
-            ->get(MVCFactoryInterface::class)->createModel(
+        $fieldsCategoriesModel = $this->getMVCFactory()->createModel(
                 'FieldsCategories',
                 'Administrator',
                 ['ignore_request' => true]
@@ -59,8 +58,7 @@ class ExportModel extends FormModel
 
         // Categories
         /** @var CategoriesModel $categoriesModel */
-        $categoriesModel = HopperComponent::getContainer()
-            ->get(MVCFactoryInterface::class)->createModel('Categories', 'Administrator', ['ignore_request' => true]);
+        $categoriesModel = $this->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
         $categoriesModel->setState('list.select', 'a.*');
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
         $this->createImportFileForType(
