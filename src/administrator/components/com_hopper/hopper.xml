@@ -11,6 +11,24 @@
     <description><![CDATA[COM_HOPPER_DESCRIPTION]]></description>
     <namespace path="src">Obix\Component\Hopper</namespace>
 
+    <install> <!-- Runs on install -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/mysql/install.sql</file>
+        </sql>
+    </install>
+
+    <uninstall> <!-- Runs on uninstall -->
+        <sql>
+            <file driver="mysql" charset="utf8">sql/mysql/uninstall.sql</file>
+        </sql>
+    </uninstall>
+
+    <update>  <!-- Runs on update -->
+        <schemas>
+            <schemapath type="mysql" charset="utf8">sql/mysql/update</schemapath>
+        </schemas>
+    </update>
+
     <administration>
         <menu link="option=com_spm" img="class:default">COM_HOPPER_MENU_BACKEND</menu>
 
