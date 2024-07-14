@@ -20,7 +20,7 @@ use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifest
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
 use Obix\Component\Hopper\Administrator\Extension\Package\Package;
-use Obix\Component\Hopper\Administrator\Extension\Settings;
+use Obix\Component\Hopper\Administrator\Extension\Pathname;
 use Obix\Component\Hopper\Administrator\Model\ExportModel;
 
 use function defined;
@@ -29,7 +29,7 @@ class ExportController extends BaseController
 {
     public function export(): void
     {
-        $settings = new Settings();
+        $settings = new Pathname();
 
         /** @var ExportModel $model */
         $model = $this->getModel();

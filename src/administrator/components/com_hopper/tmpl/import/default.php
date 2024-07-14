@@ -26,8 +26,7 @@ $formAction = Route::_('index.php?option=com_hopper&task=import.import');
     <div>
         <div class="row">
             <div class="col-md-9">
-                <?php
-                echo $this->form->renderField('importFiles'); ?>
+                <?= $this->form->renderField('importFiles') ?>
             </div>
         </div>
     </div>

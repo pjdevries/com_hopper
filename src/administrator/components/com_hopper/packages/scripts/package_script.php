@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
-use Obix\Component\Hopper\Administrator\Extension\Settings;
+use Obix\Component\Hopper\Administrator\Extension\Pathname;
 
 return new class() implements InstallerScriptInterface {
     private string $minimumJoomla = '5.0';
@@ -47,7 +47,7 @@ return new class() implements InstallerScriptInterface {
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
         // Import installed import files.
-        $settings = new Settings();
+        $settings = new Pathname();
         $version = (string)$adapter->manifest->version;
 
         $importFolder = $settings->importFilesFolder($version);

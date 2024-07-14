@@ -27,8 +27,7 @@ $formAction = Route::_('index.php?option=com_hopper&task=export.export');
         <div class="row">
             <div class="col-md-9">
                 <div class="version-wrapper">
-                    <?php
-                    echo $this->form->renderField('version'); ?>
+                    <?= $this->form->renderField('version') ?>
                 </div>
             </div>
         </div>

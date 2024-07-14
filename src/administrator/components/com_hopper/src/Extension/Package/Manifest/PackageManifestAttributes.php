@@ -15,18 +15,18 @@ namespace Obix\Component\Hopper\Administrator\Extension\Package\Manifest;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
-use Obix\Component\Hopper\Administrator\Extension\Settings;
+use Obix\Component\Hopper\Administrator\Extension\Pathname;
 
 class PackageManifestAttributes implements ManifestAttributesInterface
 {
     private string $version;
 
-    private Settings $settings;
+    private Pathname $settings;
 
     /**
-     * @param Settings $version
+     * @param Pathname $version
      */
-    public function __construct(Settings $settings, string $version = '1.0.0')
+    public function __construct(Pathname $settings, string $version = '1.0.0')
     {
         $this->settings = $settings;
         $this->version = $version;

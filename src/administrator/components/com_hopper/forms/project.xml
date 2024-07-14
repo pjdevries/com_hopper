@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form>
+    <field
+            name="id"
+            type="hidden"
+            default="0"
+    />
+
+    <field
+            name="title"
+            type="text"
+            label="COM_HOPPER_PROJECT_EDIT_TITLE_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_TITLE_DESC"
+            required="true"
+    />
+
+    <field
+            name="alias"
+            type="text"
+            label="COM_HOPPER_PROJECT_EDIT_ALIAS_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_ALIAS_DESC"
+    />
+
+    <field
+            name="description"
+            type="textarea"
+            label="COM_HOPPER_PROJECT_EDIT_DESCRIPTION_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_DESCRIPTION_DESC"
+            required="false"
+    />
+</form>

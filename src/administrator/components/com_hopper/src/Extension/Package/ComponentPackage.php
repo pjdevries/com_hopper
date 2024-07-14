@@ -11,19 +11,19 @@
 namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
-use Obix\Component\Hopper\Administrator\Extension\Settings;
+use Obix\Component\Hopper\Administrator\Extension\Pathname;
 use ZipArchive;
 
 \defined('_JEXEC') or die;
 
 class ComponentPackage
 {
-    private Settings $settings;
+    private Pathname $settings;
 
     /**
-     * @param Settings $settings
+     * @param Pathname $settings
      */
-    public function __construct(Settings $settings)
+    public function __construct(Pathname $settings)
     {
         $this->settings = $settings;
     }

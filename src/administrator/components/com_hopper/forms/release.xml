@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form addfieldprefix="Obix\Component\Hopper\Administrator\Field">
+    <field
+            name="id"
+            type="hidden"
+            default="0"
+    />
+
+    <field
+            name="project_id"
+            type="sql"
+            label="COM_HOPPER_PROJECT_EDIT_PROJECT_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_PROJECT_DESC"
+            required="true"
+            query="SELECT id AS value, title AS text FROM #__hopper_projects"
+            value_field="text"
+    >
+        <option value="">COM_HOPPER_PROJECT_EDIT_PROJECT_OPTION_NONE</option>
+    </field>
+
+    <field
+            name="version"
+            type="input"
+            pattern="\d+\.\d+\.\d+"
+            label="COM_HOPPER_PROJECT_EDIT_VERSION_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_VERSION_DESC"
+            required="true"
+            default="1.0.0"
+    />
+
+    <field
+            name="note"
+            type="textarea"
+            label="COM_HOPPER_PROJECT_EDIT_NOTE_LABEL"
+            description="COM_HOPPER_PROJECT_EDIT_NOTE_DESC"
+            required="false"
+    />
+</form>

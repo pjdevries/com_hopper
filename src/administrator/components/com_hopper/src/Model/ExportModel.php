@@ -22,25 +22,24 @@ use Joomla\Component\Fields\Administrator\Model\GroupsModel;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\ExportFile;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
 use Obix\Component\Hopper\Administrator\Extension\HopperComponent;
-use Obix\Component\Hopper\Administrator\Extension\Settings;
+use Obix\Component\Hopper\Administrator\Extension\Pathname;
 
 use function defined;
 
 class ExportModel extends FormModel
 {
-    private Settings $settings;
+    private Pathname $settings;
 
-    public function export(Settings $settings): void
+    public function export(Pathname $settings, string $projectAlias, string $version): void
     {
         $this->settings = $settings;
 
-        $this->createImportFiles();
+        $this->createImportFiles($projectAlias, $version);
     }
 
-    private function createImportFiles(): void
+    private function createImportFiles(string $projectAlias, string $version): void
     {
-        $version = $this->getState('version', '1.0.0');
-        $outputDir = $this->settings->exportFilesFolder($version);
+        $outputDir = $this->settings->exportFilesFolder($projectAlias, $version);
 
         // Field categories
         /** @var FieldsCategoriesModel $fieldGroupsModel */

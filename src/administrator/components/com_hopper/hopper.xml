@@ -30,7 +30,15 @@
     </update>
 
     <administration>
-        <menu link="option=com_spm" img="class:default">COM_HOPPER_MENU_BACKEND</menu>
+        <menu line="option=com_hopper" img="class:default">COM_HOPPER_MENU_BACKEND</menu>
+        <submenu>
+            <menu link="option=com_hopper&amp;view=projects" img="default">
+                COM_HOPPER_PROJECTS
+            </menu>
+            <menu link="option=com_hopper&amp;view=releases" img="default">
+                COM_HOPPER_RELEASES
+            </menu>
+        </submenu>
 
         <files folder="administrator/components/com_hopper">
             <folder>forms</folder>
