@@ -12,10 +12,11 @@ use Joomla\CMS\HTML\HTMLHelper;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageType;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));
-
 
 $action = Route::_('index.php?option=com_hopper&view=releases');
 ?>
@@ -34,16 +35,42 @@ $action = Route::_('index.php?option=com_hopper&view=releases');
             <tr>
                 <td><?= Text::_('COM_HOPPER_RELEASES_LIST_TITLE_HEADER') ?></td>
                 <td><?= Text::_('COM_HOPPER_RELEASES_LIST_VERSION_HEADER') ?></td>
+                <td><?= Text::_('COM_HOPPER_RELEASES_LIST_DOWNLOAD_HEADER') ?></td>
                 <td><?= Text::_('COM_HOPPER_RELEASES_LIST_ID_HEADER') ?></td>
             </tr>
             </thead>
             <tbody>
 
             <?php
-            foreach ($this->items as $item) : ?>
+            foreach ($this->items as $item) :
+                $packageHelper = new PackageHelper($item->alias, $item->version);
+                if ($packageExists = $packageHelper->exists(PackageType::PACKAGE)) :
+                    $downloadRef = Route::_(
+                        'index.php?option=com_hopper&task=release.download&projectId=' . $item->project_id . '&version=' . $item->version
+                    );
+                endif;
+                ?>
                 <tr>
                     <td><?= $item->title ?></td>
                     <td><?= $item->version ?></td>
+                    <td>
+                        <?php
+                        if ($packageExists) : ?>
+                            <a href="<?= $downloadRef ?>" class="btn btn-secondary btn-sm text-decoration-none"
+                               title="<?= $packageHelper->packageName() ?>">
+                                <span class="fa fa-download"></span>
+                            </a>
+                        <?php
+                        else : ?>
+                            <span class="btn btn-default btn-sm text-decoration-none" title="<?= Text::sprintf(
+                                'COM_HOPPER_ERROR_PACKAGE_DOES_NOT_EXIST',
+                                $packageHelper->packageName()
+                            ) ?>)">
+                                <span class="fa fa-xmark"></span>
+                            </span>
+                        <?php
+                        endif; ?>
+                    </td>
                     <td><?= $item->id ?></td>
                 </tr>
             <?php

@@ -12,6 +12,9 @@ namespace Obix\Component\Hopper\Administrator\Extension;
 
 \defined('_JEXEC') or die;
 
+use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageType;
+
 class PackageHelper
 {
     /**
@@ -24,9 +27,24 @@ class PackageHelper
      */
     private string $version;
 
-    public function __construct(string $projectAlias, string $version) {
+    public function __construct(string $projectAlias, string $version)
+    {
         $this->projectAlias = $projectAlias;
         $this->version = $version;
+    }
+
+    public function exists(PackageType $type): bool
+    {
+        return match ($type) {
+            PackageType::COMPONENT => file_exists(
+                $this->packagesFolder() . '/' . $this->componentPackageName(
+                    ComponentHelper::getComponentVersion('com_hopper')
+                )
+            ),
+            PackageType::FILES => file_exists($this->packagesFolder() . '/' . $this->filesPackageName()),
+            PackageType::PACKAGE => file_exists($this->packagesFolder() . '/' . $this->packageName()),
+            default => false
+        };
     }
 
     /**
