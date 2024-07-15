@@ -1,5 +1,20 @@
 # Hopper Joomla! Extension
 
+## Disclaimer
+
+The creators and developers of this extension accept no responsibility for any possible data loss or the website in
+question becoming dysfunctional in any other way due to the use of this extension.
+
+**BEWARE!**: *The component currently does not consider any existing data on the target website. Therefore, it is
+inadvisable to import data into websites that are not empty. Only import data into new, empty, and freshly installed
+Joomla! websites.*
+
+The extension is a proof of concept with limited features and functionality. It has not been thoroughly tested and has
+not been tested at all in a production environment.
+
+> “From then on, when anything went wrong with a computer, we said it had bugs in it.”
+_(Grace Hopper)_
+
 ## Raison d'être
 
 The idea for this extension came from Herman Peeren and is a spin-off of his Joomla! Magazine article series **Tools to
@@ -59,20 +74,10 @@ during the package's installation. They will still be available after the uninst
 The extension is a component designed to export custom fields and associated metadata, and import them into other
 Joomla! sites.
 
-**BEWARE!**: *The component currently does not take any existing data on the target website into account. Therefore, it
-is ill-advised to import data into websites that are not empty. Only import data into new, empty, and freshly installed
-Joomla! websites.*
-
-In its current form, the component's functionality is quite limited and rudimentary, and it has not been extensively
-tested.
-
-> “From then on, when anything went wrong with a computer, we said it had bugs in it.”
-_(Grace Hopper)_
-
-Notwithstanding the above, an effort has been made to make the component as robust as possible. However, Joomla itself
-does not allow us to make it as fail-safe as we would like. As a result, if an error occurs during the import phase, the
-imported data will most likely not be consistent. This can not be remedied by performing the import a second time.
-First, all dat that was already imported must be removed. While doing so, don't forget to empty the **Trash**.
+An effort has been made to make the component as robust as possible. However, Joomla itself does not allow us to make it
+as fail-safe as we would like. As a result, if an error occurs during the import phase, the imported data will most
+likely not be consistent. This can not be remedied by performing the import a second time. First, all data that was
+already imported must be removed. While doing so, don't forget to empty the **Trash**.
 
 ## Usage
 
