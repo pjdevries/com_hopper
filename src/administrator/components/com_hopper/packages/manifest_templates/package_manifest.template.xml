@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="package" method="upgrade">
-    <name>Hopper package {{packagename}}</name>
+    <name>Hopper {{packagename}} package</name>
     <packagename>{{packagename}}</packagename>
     <creationDate>{{creationDate}}</creationDate>
     <author>{{author}}</author>
