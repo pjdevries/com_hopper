@@ -14,8 +14,14 @@ namespace Obix\Component\Hopper\Administrator\Extension;
 
 class PackageHelper
 {
+    /**
+     * @var string
+     */
     private string $projectAlias;
 
+    /**
+     * @var string
+     */
     private string $version;
 
     public function __construct(string $projectAlias, string $version) {
@@ -35,17 +41,17 @@ class PackageHelper
     }
 
     /**
-     * The folder into which the relevant export files placed.
+     * The export base folder.
      *
      * @return string
      */
     public function exportFolder(): string
     {
-        return self::packagesFolder() . '/export/' . $this->version;
+        return self::packagesFolder() . '/export';
     }
 
     /**
-     * The folder to which the import files are exported.
+     * The target folder for the exported import files.
      *
      * @return string
      */
@@ -54,56 +60,98 @@ class PackageHelper
         return self::exportFolder() . '/files';
     }
 
+    /**
+     * The base import folder.
+     *
+     * @return string
+     */
     public function importFolder(): string
     {
         return self::packagesFolder() . '/import';
     }
 
+    /**
+     * The target folder for the installed/uploaded import files.
+     *
+     * @return string
+     */
     public function importFilesFolder(): string
     {
         return self::importFolder() . '/files';
     }
 
+    /**
+     * The folder where the manifest file templates are.
+     *
+     * @return string
+     */
     public function manifestTemplatesFolder(): string
     {
         return JPATH_ADMINISTRATOR . '/components/com_hopper/packages/manifest_templates';
     }
 
+    /**
+     * The folder where the package scripts are.
+     *
+     * @return string
+     */
     public function scriptsFolder(): string
     {
         return JPATH_ADMINISTRATOR . '/components/com_hopper/packages/scripts';
     }
 
+    /**
+     * @param string $version
+     * @return string
+     */
     public function componentPackageName(string $version): string
     {
         return 'com_hopper-' . $version . '.zip';
     }
 
+    /**
+     * @return string
+     */
     public function filesManifestName(): string
     {
         return 'hopper_' . $this->projectAlias . '_import_files-' . $this->getVersion() . '.xml';
     }
 
+    /**
+     * @return string
+     */
     public function filesPackageName(): string
     {
         return 'hopper_' . $this->projectAlias . '_import_files-' . $this->getVersion() . '.zip';
     }
 
+    /**
+     * @return string
+     */
     public function packageManifestName(): string
     {
         return 'pkg_hopper_' . $this->projectAlias . '-' . $this->version . '.xml';
     }
 
+    /**
+     * @return string
+     */
     public function packageName(): string
     {
         return 'pkg_hopper_' . $this->projectAlias . '-' . $this->version . '.zip';
     }
 
+    /**
+     * @return string
+     */
     public function getProjectAlias(): string
     {
         return $this->projectAlias;
     }
 
+    /**
+     * @return string
+     */
     public function getVersion(): string
     {
         return $this->version;
