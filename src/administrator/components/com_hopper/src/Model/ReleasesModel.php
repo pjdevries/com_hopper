@@ -23,12 +23,11 @@ class ReleasesModel extends ListModel
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
-                'id',
-                'release.id',
-                'project_id',
-                'release.project_id',
-                'version',
-                'release.version',
+                'id', 'release.id',
+                'project_id', 'release.project_id',
+                'version', 'release.version',
+                'title', 'project.title',
+                'alias', 'project.alias'
             ];
         }
 
@@ -45,6 +44,7 @@ class ReleasesModel extends ListModel
                 'list.select',
                 [
                     $db->quoteName('release.id'),
+                    $db->quoteName('release.project_id'),
                     $db->quoteName('release.version'),
                     $db->quoteName('project.title'),
                     $db->quoteName('project.alias')
