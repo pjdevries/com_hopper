@@ -14,9 +14,20 @@ defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
 
+use Joomla\CMS\MVC\View\ViewInterface;
+
 use function defined;
 
 class DisplayController extends BaseController
 {
     protected $default_view = 'cpanel';
+
+    protected function prepareViewModel(ViewInterface $view)
+    {
+        parent::prepareViewModel($view);
+
+        if ($view->getName() === 'releases') {
+            $view->setModel($this->getModel('project'));
+        }
+    }
 }
