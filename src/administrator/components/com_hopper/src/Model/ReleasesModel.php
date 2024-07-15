@@ -10,12 +10,14 @@
 
 namespace Obix\Component\Hopper\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
+
+use function defined;
 
 class ReleasesModel extends ListModel
 {
@@ -23,11 +25,16 @@ class ReleasesModel extends ListModel
     {
         if (empty($config['filter_fields'])) {
             $config['filter_fields'] = [
-                'id', 'release.id',
-                'project_id', 'release.project_id',
-                'version', 'release.version',
-                'title', 'project.title',
-                'alias', 'project.alias'
+                'id',
+                'release.id',
+                'project_id',
+                'release.project_id',
+                'version',
+                'release.version',
+                'title',
+                'project.title',
+                'alias',
+                'project.alias'
             ];
         }
 

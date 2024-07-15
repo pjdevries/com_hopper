@@ -10,11 +10,14 @@
 
 namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
+use FilesystemIterator;
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use ZipArchive;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class ComponentPackage
 {
@@ -36,12 +39,26 @@ class ComponentPackage
 
         $archive = new ZipArchive();
 
-        $archive->open($this->packageHelper->packagesFolder() . '/' . $this->packageHelper->componentPackageName($version), ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $archive->open(
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->componentPackageName($version),
+            ZipArchive::OVERWRITE | ZipArchive::CREATE
+        );
 
         $archive->addFile(JPATH_COMPONENT_ADMINISTRATOR . '/hopper.xml', 'hopper.xml');
-        $this->zipDir($archive, JPATH_ROOT. '/administrator/components/com_hopper', 'administrator/components/com_hopper');
+        $this->zipDir(
+            $archive,
+            JPATH_ROOT . '/administrator/components/com_hopper',
+            'administrator/components/com_hopper'
+        );
         // Folder packages is excluded in zipDir because we only want the template files from it.
-        $archive->addGlob(JPATH_ROOT. '/administrator/components/com_hopper/packages/manifest_templates/*', 0, ['add_path' => 'administrator/components/com_hopper/packages/manifest_templates/', 'remove_all_path' => TRUE]);
+        $archive->addGlob(
+            JPATH_ROOT . '/administrator/components/com_hopper/packages/manifest_templates/*',
+            0,
+            [
+                'add_path' => 'administrator/components/com_hopper/packages/manifest_templates/',
+                'remove_all_path' => true
+            ]
+        );
         $this->zipDir($archive, JPATH_ROOT . '/media/com_hopper', 'media/com_hopper');
 
         $archive->close();
@@ -71,14 +88,18 @@ class ComponentPackage
 
         $archive->addEmptyDir($archiveFolder);
 
-        foreach (new \FilesystemIterator($srcFolder) as $entry) {
+        foreach (new FilesystemIterator($srcFolder) as $entry) {
             if ($pregMatchAny($ignore, $entry->getPathname())) {
                 continue;
             }
 
             if ($entry->isDir()) {
                 $archive->addEmptyDir($archiveFolder . '/' . $entry->getFilename());
-                $this->zipDir($archive, $entry->getPathname(), str_replace($srcFolder, $archiveFolder, $entry->getPathname()));
+                $this->zipDir(
+                    $archive,
+                    $entry->getPathname(),
+                    str_replace($srcFolder, $archiveFolder, $entry->getPathname())
+                );
 
                 continue;
             }

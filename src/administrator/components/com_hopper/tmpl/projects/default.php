@@ -43,7 +43,8 @@ $action = Route::_('index.php?option=com_hopper&view=projects');
                     <td>
                         <?= $item->title ?>
                         <div class="small break-word">
-                            <?php echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
+                            <?php
+                            echo Text::sprintf('JGLOBAL_LIST_ALIAS', $this->escape($item->alias)); ?>
                         </div>
                     </td>
                     <td><?= $item->id ?></td>

@@ -10,7 +10,7 @@
 
 namespace Obix\Component\Hopper\Administrator\Controller;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
@@ -18,6 +18,8 @@ use Joomla\CMS\MVC\View\ViewInterface;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use Obix\Component\Hopper\Administrator\Model\ExportModel;
 use Obix\Component\Hopper\Administrator\Model\ProjectModel;
+
+use function defined;
 
 class ReleaseController extends FormController
 {

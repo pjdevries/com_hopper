@@ -10,7 +10,9 @@
 
 namespace Obix\Component\Hopper\Administrator\Extension\Package\Manifest;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class Manifest
 {
@@ -28,7 +30,9 @@ class Manifest
     {
         $template = file_get_contents($templatePath);
         $attributes = $this->attributes->getAttributes();
-        $output = str_replace(array_map(fn(string $tag) => '{{' . $tag . '}}', array_keys($attributes)), array_values($attributes), $template);
+        $output = str_replace(array_map(fn(string $tag) => '{{' . $tag . '}}', array_keys($attributes)),
+            array_values($attributes),
+            $template);
         file_put_contents($ouputPath, $output);
     }
 }

@@ -10,12 +10,15 @@
 
 namespace Obix\Component\Hopper\Administrator\Extension\Package\Manifest;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use DateTimeImmutable;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+
+use function defined;
 
 class PackageManifestAttributes implements ManifestAttributesInterface
 {
@@ -32,16 +35,16 @@ class PackageManifestAttributes implements ManifestAttributesInterface
     public function getAttributes(): array
     {
         $appConfig = Factory::getApplication()->getConfig();
-        
+
         $componentVersion = ComponentHelper::getComponentVersion('com_hopper');
-        
+
         return [
             'packagename' => $this->packageHelper->getProjectAlias(),
-            'creationDate' => (new \DateTimeImmutable())->format('Y-m-d'),
+            'creationDate' => (new DateTimeImmutable())->format('Y-m-d'),
             'author' => $appConfig->get('sitename'),
             'authorEmail' => $appConfig->get('mailfrom'),
             'authorUrl' => Uri::root(),
-            'copyright' => '(C) ' . (new \DateTimeImmutable())->format('Y') . ', ' . Factory::getApplication(
+            'copyright' => '(C) ' . (new DateTimeImmutable())->format('Y') . ', ' . Factory::getApplication(
                 )->getConfig()->get('sitename'),
             'license' => 'GNU General Public License version 2 or later',
             'version' => $this->packageHelper->getVersion(),

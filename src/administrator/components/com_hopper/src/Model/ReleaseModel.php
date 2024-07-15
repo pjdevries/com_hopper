@@ -10,25 +10,20 @@
 
 namespace Obix\Component\Hopper\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
-use Joomla\CMS\MVC\View\ViewInterface;
-use Obix\Component\Hopper\Administrator\Extension\Package\ComponentPackage;
-use Obix\Component\Hopper\Administrator\Extension\Package\FilesPackage;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifestAttributes;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
-use Obix\Component\Hopper\Administrator\Extension\Package\Package;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+
+use function defined;
 
 class ReleaseModel extends AdminModel
 {
     public function save($data): bool
     {
-        if (!(int) $data['id']) {
+        if (!(int)$data['id']) {
             $data['created_by'] = Factory::getApplication()->getIdentity()->id;
         }
 
@@ -73,6 +68,6 @@ class ReleaseModel extends AdminModel
             return $table;
         }
 
-        throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+        throw new Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
     }
 }

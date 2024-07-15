@@ -10,7 +10,7 @@
 
 namespace Obix\Component\Hopper\Administrator\View\Project;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\Helper\ContentHelper;
@@ -20,6 +20,8 @@ use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
 use Obix\Component\Hopper\Administrator\Model\ProjectModel;
+
+use function defined;
 
 class HtmlView extends BaseHtmlView
 {

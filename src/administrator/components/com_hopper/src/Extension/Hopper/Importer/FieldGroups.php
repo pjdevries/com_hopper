@@ -10,9 +10,12 @@
 
 namespace Obix\Component\Hopper\Administrator\Extension\Hopper\Importer;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\Component\Fields\Administrator\Model\GroupModel;
+use RuntimeException;
+
+use function defined;
 
 class FieldGroups implements ImporterInterface
 {
@@ -29,7 +32,7 @@ class FieldGroups implements ImporterInterface
     {
         foreach ($data as $group) {
             if (!($id = $this->save($group))) {
-                throw new \RuntimeException($this->model->getError());
+                throw new RuntimeException($this->model->getError());
             }
 
             $this->idMap[(int)$group->id] = $id;

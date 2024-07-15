@@ -15,6 +15,7 @@ use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Model\ImportModel;
 
 return new class() implements InstallerScriptInterface {
     private string $minimumJoomla = '5.0';
@@ -66,7 +67,7 @@ return new class() implements InstallerScriptInterface {
             }
         }
 
-        /** @var \Obix\Component\Hopper\Administrator\Model\ImportModel $model */
+        /** @var ImportModel $model */
         $model = Factory::getApplication()->bootComponent('com_hopper')->getMVCFactory()->createModel(
             'Import',
             'Administrator',

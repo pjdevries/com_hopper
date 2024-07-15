@@ -13,7 +13,6 @@ namespace Obix\Component\Hopper\Administrator\Controller;
 defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\BaseController;
-
 use Joomla\CMS\MVC\View\ViewInterface;
 
 use function defined;

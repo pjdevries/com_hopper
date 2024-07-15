@@ -23,6 +23,8 @@ use Obix\Component\Hopper\Administrator\Extension\Hopper\Importer\Fields;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\Importer\ImporterFactory;
 use Obix\Component\Hopper\Administrator\Extension\Upload\Handler;
 
+use RuntimeException;
+
 use function defined;
 
 class ImportModel extends FormModel
@@ -92,7 +94,6 @@ class ImportModel extends FormModel
                     ->setFieldCategories($fieldCategories);
                 $fieldsImporter->import($this->importData($files[HopperType::Fields->value]));
             }
-
 //            $db->transactionCommit();
         } catch (Exception $e) {
 //            $db->transactionRollback();
@@ -124,11 +125,15 @@ class ImportModel extends FormModel
             );
 
             if (($type = $hopperObject?->type ?? null) === null || HopperType::tryFrom($type) === null) {
-                throw new \RuntimeException(Text::sprintf('COM_HOPPER_IMPORT_UPLOAD_NOT_AN_IMPORT_FILE', $uploadedFile['name']));
+                throw new RuntimeException(
+                    Text::sprintf('COM_HOPPER_IMPORT_UPLOAD_NOT_AN_IMPORT_FILE', $uploadedFile['name'])
+                );
             }
 
             if (isset($filesByType[$type])) {
-                throw new \RuntimeException(Text::sprintf('COM_HOPPER_IMPORT_UPLOAD_DUPLICATE_TYPE', $uploadedFile['name']));
+                throw new RuntimeException(
+                    Text::sprintf('COM_HOPPER_IMPORT_UPLOAD_DUPLICATE_TYPE', $uploadedFile['name'])
+                );
             }
 
             $filesByType[$type] = $uploadedFile['dest_path'];

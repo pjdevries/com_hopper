@@ -11,9 +11,10 @@
 namespace Obix\Component\Hopper\Administrator\Extension\Hopper\Importer;
 
 use Joomla\Component\Fields\Administrator\Model\GroupModel;
-use Obix\Component\Hopper\Administrator\Extension\Hopper\Importer\ImporterInterface;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class FieldCategories implements ImporterInterface
 {

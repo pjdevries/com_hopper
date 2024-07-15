@@ -10,12 +10,14 @@
 
 namespace Obix\Component\Hopper\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\MVC\Model\ListModel;
 use Joomla\Database\DatabaseQuery;
 use Joomla\Database\QueryInterface;
+
+use function defined;
 
 class ProjectsModel extends ListModel
 {

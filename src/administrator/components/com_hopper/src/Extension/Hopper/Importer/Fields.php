@@ -11,8 +11,11 @@
 namespace Obix\Component\Hopper\Administrator\Extension\Hopper\Importer;
 
 use Joomla\Component\Fields\Administrator\Model\FieldModel;
+use RuntimeException;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class Fields implements ImporterInterface
 {
@@ -35,7 +38,7 @@ class Fields implements ImporterInterface
     {
         foreach ($data as $field) {
             if (!($id = $this->save($field))) {
-                throw new \RuntimeException($this->model->getError());
+                throw new RuntimeException($this->model->getError());
             }
 
             $this->idMap[(int)$field->id] = $id;

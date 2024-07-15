@@ -10,13 +10,16 @@
 
 namespace Obix\Component\Hopper\Administrator\Model;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
+use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
 use Joomla\Filter\OutputFilter;
 use Joomla\String\StringHelper;
+
+use function defined;
 
 class ProjectModel extends AdminModel
 {
@@ -28,7 +31,7 @@ class ProjectModel extends AdminModel
             $data['alias'] = $alias;
         }
 
-        if (!(int) $data['id']) {
+        if (!(int)$data['id']) {
             $data['created_by'] = Factory::getApplication()->getIdentity()->id;
         }
 
@@ -40,7 +43,7 @@ class ProjectModel extends AdminModel
     protected function generateProjectTitle($title, $alias)
     {
         // Alter the title & alias
-        $table      = $this->getTable();
+        $table = $this->getTable();
         $aliasField = $table->getColumnAlias('alias');
         $titleField = $table->getColumnAlias('title');
 
@@ -95,6 +98,6 @@ class ProjectModel extends AdminModel
             return $table;
         }
 
-        throw new \Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
+        throw new Exception(Text::sprintf('JLIB_APPLICATION_ERROR_TABLE_NAME_NOT_SUPPORTED', $name), 0);
     }
 }

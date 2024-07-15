@@ -51,16 +51,16 @@ class Categories implements ImporterInterface
     {
         foreach ($data as $category) {
             $category->associations = array_reduce(
-                    array_keys((array)$category->associations),
-                    function (array $carry, string $lang) use ($category, $idMap) {
-                        $carry[$lang] = $idMap[(int)$category->associations->$lang];
+                array_keys((array)$category->associations),
+                function (array $carry, string $lang) use ($category, $idMap) {
+                    $carry[$lang] = $idMap[(int)$category->associations->$lang];
 
-                        return $carry;
-                    },
-                    []
-                );
+                    return $carry;
+                },
+                []
+            );
 
-            if (!$this->model->save((array) $category)) {
+            if (!$this->model->save((array)$category)) {
                 throw new RuntimeException($this->model->getError());
             }
         }

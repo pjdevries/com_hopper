@@ -10,9 +10,11 @@
 
 namespace Obix\Component\Hopper\Administrator\Controller;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\MVC\Controller\FormController;
+
+use function defined;
 
 class ProjectController extends FormController
 {

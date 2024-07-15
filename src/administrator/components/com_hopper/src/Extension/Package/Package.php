@@ -15,7 +15,9 @@ use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use ZipArchive;
 
-\defined('_JEXEC') or die;
+use function defined;
+
+defined('_JEXEC') or die;
 
 class Package
 {

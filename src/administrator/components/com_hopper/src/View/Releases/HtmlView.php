@@ -10,7 +10,7 @@
 
 namespace Obix\Component\Hopper\Administrator\View\Releases;
 
-\defined('_JEXEC') or die;
+defined('_JEXEC') or die;
 
 use Joomla\CMS\Factory;
 use Joomla\CMS\HTML\HTMLHelper;
@@ -19,8 +19,9 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use Obix\Component\Hopper\Administrator\Model\ReleasesModel;
+
+use function defined;
 
 class HtmlView extends BaseHtmlView
 {
@@ -44,7 +45,7 @@ class HtmlView extends BaseHtmlView
 
         $this->state = $model->getState();
         $this->items = $model->getItems();
-        $this->pagination = $model->getPagination();;
+        $this->pagination = $model->getPagination();
         $this->filterForm = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
 
@@ -71,7 +72,7 @@ class HtmlView extends BaseHtmlView
 
         $user = Factory::getApplication()->getIdentity();
 
-        if ($user->authorise('release.create', 'com_hopper')){
+        if ($user->authorise('release.create', 'com_hopper')) {
             $toolbar->addNew('release.add');
         }
 
