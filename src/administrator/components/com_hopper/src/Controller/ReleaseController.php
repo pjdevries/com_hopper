@@ -15,12 +15,6 @@ namespace Obix\Component\Hopper\Administrator\Controller;
 use Joomla\CMS\MVC\Controller\FormController;
 use Joomla\CMS\MVC\Model\BaseDatabaseModel;
 use Joomla\CMS\MVC\View\ViewInterface;
-use Obix\Component\Hopper\Administrator\Extension\Package\ComponentPackage;
-use Obix\Component\Hopper\Administrator\Extension\Package\FilesPackage;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifestAttributes;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
-use Obix\Component\Hopper\Administrator\Extension\Package\Package;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use Obix\Component\Hopper\Administrator\Model\ExportModel;
 use Obix\Component\Hopper\Administrator\Model\ProjectModel;
@@ -48,8 +42,6 @@ class ReleaseController extends FormController
         );
         $project = $projectModel->getItem($projectId);
 
-        $packageHelper = new PackageHelper($project->alias, $version);
-
         /** @var ExportModel $model */
         $exportModel = $this->createModel(
             'Export',
@@ -57,17 +49,12 @@ class ReleaseController extends FormController
             ['ignore_request' => true]
         );
 
-        $exportModel->setState('version', $version);
-        $exportModel->export($packageHelper);
-
-        (new FilesPackage($packageHelper, new Manifest(new FilesManifestAttributes($packageHelper, $version))))->create($project->alias, $version);
-        (new ComponentPackage($packageHelper))->create();
-        (new Package($packageHelper, new Manifest(new PackageManifestAttributes($packageHelper, $version))))->create($project->alias);
+        $exportModel->export(new PackageHelper($project->alias, $version));
     }
 
     public function download()
     {
-        if (!$projectId = $this->app->getInput()->getInt('version', 0)) {
+        if (!$projectId = $this->app->getInput()->getInt('projectId', 0)) {
             return;
         }
 

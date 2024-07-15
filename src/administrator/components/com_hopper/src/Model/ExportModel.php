@@ -15,13 +15,17 @@ defined('_JEXEC') or die;
 use Exception;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Form\Form;
-use Joomla\CMS\MVC\Factory\MVCFactoryInterface;
 use Joomla\CMS\MVC\Model\FormModel;
 use Joomla\Component\Fields\Administrator\Model\FieldsModel;
 use Joomla\Component\Fields\Administrator\Model\GroupsModel;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\ExportFile;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
-use Obix\Component\Hopper\Administrator\Extension\HopperComponent;
+use Obix\Component\Hopper\Administrator\Extension\Package\ComponentPackage;
+use Obix\Component\Hopper\Administrator\Extension\Package\FilesPackage;
+use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifestAttributes;
+use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
+use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
+use Obix\Component\Hopper\Administrator\Extension\Package\Package;
 use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 
 use function defined;
@@ -35,6 +39,10 @@ class ExportModel extends FormModel
         $this->packageHelper = $packageHelper;
 
         $this->createImportFiles();
+
+        (new FilesPackage($packageHelper, new Manifest(new FilesManifestAttributes($packageHelper))))->create();
+        (new ComponentPackage($packageHelper))->create();
+        (new Package($packageHelper, new Manifest(new PackageManifestAttributes($packageHelper))))->create();
     }
 
     private function createImportFiles(): void
@@ -44,10 +52,10 @@ class ExportModel extends FormModel
         // Field categories
         /** @var FieldsCategoriesModel $fieldGroupsModel */
         $fieldsCategoriesModel = $this->getMVCFactory()->createModel(
-                'FieldsCategories',
-                'Administrator',
-                ['ignore_request' => true]
-            );
+            'FieldsCategories',
+            'Administrator',
+            ['ignore_request' => true]
+        );
         $this->createImportFileForType(
             HopperType::FieldCategories,
             $fieldCategories = $fieldsCategoriesModel->getItems(),
@@ -57,7 +65,8 @@ class ExportModel extends FormModel
 
         // Categories
         /** @var CategoriesModel $categoriesModel */
-        $categoriesModel = $this->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]);
+        $categoriesModel = $this->getMVCFactory()->createModel('Categories', 'Administrator', ['ignore_request' => true]
+        );
         $categoriesModel->setState('list.select', 'a.*');
         $categoriesModel->setState('filter.id', array_map(fn(object $item) => $item->category_id, $fieldCategories));
         $this->createImportFileForType(
