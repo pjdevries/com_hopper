@@ -25,15 +25,15 @@ Installation is the same as for any other Joomla extension. In its current form,
 
 Where this extension differs from most others is its ability to export packages that can then be installed on other
 sites. Upon first use, only the component is installed. After creating a project and its release, an installation
-package for the project release can be downloaded for installation on other sites.
+release package for the project can be downloaded for installation on other sites.
 
-### Release export and installation
+### Release package
 
 A release is downloaded as a package of type [`package`](https://docs.joomla.org/Package). Different from other package
 types, like `component`, `module`, `plugin`, etc., this type of package is a combination package, usually containing
 multiple individual extension packages. In the case of Hopper, it contains both the Hopper component package and a
-package of type `files`. This second package contains the metadata of custom fields and metadata from related
-entities, such as field groups and field related categories.
+package of type `files`. This second package contains import files with the metadata of custom fields and metadata from
+related entities, such as field groups and field-related categories.
 
 After the release package has been installed, an installation script contained within it imports the data contained in
 the files package using functionality provided by the component package.
