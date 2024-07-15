@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
-use Obix\Component\Hopper\Administrator\Extension\Pathname;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 
 return new class() implements InstallerScriptInterface {
     private string $minimumJoomla = '5.0';
@@ -46,11 +46,13 @@ return new class() implements InstallerScriptInterface {
 
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
-        // Import installed import files.
-        $settings = new Pathname();
+        $packageAlias = (string)$adapter->manifest->packagename;
         $version = (string)$adapter->manifest->version;
 
-        $importFolder = $settings->importFilesFolder($version);
+        $packageHelper = new PackageHelper($packageAlias, $version);
+
+        // Import installed import files.
+        $importFolder = $packageHelper->importFilesFolder();
 
         // File names are constructed from Hopper types.
         $installedFiles = glob($importFolder . '/*.json');

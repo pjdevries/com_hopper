@@ -22,7 +22,7 @@ use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifest
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
 use Obix\Component\Hopper\Administrator\Extension\Package\Package;
-use Obix\Component\Hopper\Administrator\Extension\Pathname;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 
 class ReleaseModel extends AdminModel
 {
@@ -38,39 +38,7 @@ class ReleaseModel extends AdminModel
             return $result;
         }
 
-        $releaseId = (int)$this->getState($this->name . '.id');
-        $item = $this->getItem($releaseId);
-
-        $this->export($item->project_id, $item->version);
-
         return true;
-    }
-
-    private function export(string $projectId, string $version): void
-    {
-        $settings = new Pathname();
-
-        /** @var ProjectModel $exportModel */
-        $projectModel = $this->getMVCFactory()->createModel(
-            'Project',
-            'Administrator',
-            ['ignore_request' => true]
-        );
-        $project = $projectModel->getItem($projectId);
-
-        /** @var ExportModel $model */
-        $exportModel = $this->getMVCFactory()->createModel(
-            'Export',
-            'Administrator',
-            ['ignore_request' => true]
-        );
-
-        $exportModel->setState('version', $version);
-        $exportModel->export($settings, $project->alias, $version);
-
-        (new FilesPackage($settings, new Manifest(new FilesManifestAttributes($settings, $version))))->create($project->alias, $version);
-        (new ComponentPackage($settings))->create();
-        (new Package($settings, new Manifest(new PackageManifestAttributes($settings, $version))))->create($project->alias);
     }
 
     public function getForm($data = [], $loadData = true)

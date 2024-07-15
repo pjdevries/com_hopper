@@ -12,24 +12,23 @@ namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
-use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
-use Obix\Component\Hopper\Administrator\Extension\Pathname;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use ZipArchive;
 
 \defined('_JEXEC') or die;
 
 class Package
 {
-    private Pathname $settings;
+    private PackageHelper $packageHelper;
 
     private Manifest $manifest;
 
     /**
-     * @param Pathname $settings
+     * @param PackageHelper $packageHelper
      */
-    public function __construct(Pathname $settings, Manifest $manifest)
+    public function __construct(PackageHelper $packageHelper, Manifest $manifest)
     {
-        $this->settings = $settings;
+        $this->packageHelper = $packageHelper;
         $this->manifest = $manifest;
     }
 
@@ -38,18 +37,32 @@ class Package
         $componentVersion = ComponentHelper::getComponentVersion('com_hopper');
 
         $this->manifest->generate(
-            $this->settings->manifestTemplatesFolder($projectAlias) . '/package_manifest.template.xml',
-            $this->settings->packagesFolder($projectAlias) . '/pkg_hopper.xml'
+            $this->packageHelper->manifestTemplatesFolder() . '/package_manifest.template.xml',
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->packageManifestName()
         );
 
         $archive = new ZipArchive();
 
-        $archive->open($this->settings->packagesFolder($projectAlias) . '/pkg_hopper-' . $version . '.zip', ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $archive->open(
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->packageName(),
+            ZipArchive::OVERWRITE | ZipArchive::CREATE
+        );
 
-        $archive->addFile($this->settings->packagesFolder($projectAlias) . '/pkg_hopper.xml',  'pkg_hopper.xml');
-        $archive->addFile($this->settings->packagesFolder($projectAlias) . '/com_hopper-' . $componentVersion . '.zip',  'com_hopper-' . $componentVersion . '.zip');
-        $archive->addFile($this->settings->packagesFolder($projectAlias) . '/hopper_import_files-' . $version . '.zip',  'hopper_import_files-' . $version . '.zip');
-        $archive->addFile($this->settings->scriptsFolder($projectAlias) . '/package_script.php',  'script.php');
+        $archive->addFile(
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->packageManifestName(),
+            $this->packageHelper->packageManifestName()
+        );
+        $archive->addFile(
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->componentPackageName(
+                $componentVersion
+            ),
+            $this->packageHelper->componentPackageName($componentVersion)
+        );
+        $archive->addFile(
+            $this->packageHelper->packagesFolder() . '/' . $this->packageHelper->filesPackageName(),
+            $this->packageHelper->filesPackageName()
+        );
+        $archive->addFile($this->packageHelper->scriptsFolder() . '/package_script.php', 'script.php');
 
         $archive->close();
     }

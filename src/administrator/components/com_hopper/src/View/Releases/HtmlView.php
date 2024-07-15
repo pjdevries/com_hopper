@@ -19,7 +19,7 @@ use Joomla\CMS\MVC\View\GenericDataException;
 use Joomla\CMS\MVC\View\HtmlView as BaseHtmlView;
 use Joomla\CMS\Toolbar\Toolbar;
 use Joomla\CMS\Toolbar\ToolbarHelper;
-use Obix\Component\Hopper\Administrator\Extension\Pathname;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use Obix\Component\Hopper\Administrator\Model\ReleasesModel;
 
 class HtmlView extends BaseHtmlView
@@ -30,8 +30,6 @@ class HtmlView extends BaseHtmlView
     public $items = [];
     public $pagination;
     public $activeFilters = [];
-
-    public Pathname $settings;
 
     public function display($tpl = null): void
     {
@@ -49,8 +47,6 @@ class HtmlView extends BaseHtmlView
         $this->pagination = $model->getPagination();;
         $this->filterForm = $model->getFilterForm();
         $this->activeFilters = $model->getActiveFilters();
-
-        $this->settings = new Pathname();
 
         if (count($errors = $this->get('Errors'))) {
             throw new GenericDataException(implode('\n', $errors), 500);
