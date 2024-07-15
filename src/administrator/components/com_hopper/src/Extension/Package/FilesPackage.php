@@ -31,7 +31,7 @@ class FilesPackage
         $this->manifest = $manifest;
     }
 
-    public function create(string $projectAlias, string $version = '1.0.0'): void
+    public function create(): void
     {
         $this->manifest->generate(
             $this->packageHelper->manifestTemplatesFolder() . '/hopper_import_files_manifest.template.xml',

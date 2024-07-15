@@ -32,7 +32,7 @@ class Package
         $this->manifest = $manifest;
     }
 
-    public function create(string $projectAlias, string $version = '1.0.0'): void
+    public function create(): void
     {
         $componentVersion = ComponentHelper::getComponentVersion('com_hopper');
 
