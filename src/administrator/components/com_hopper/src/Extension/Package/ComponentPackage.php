@@ -11,21 +11,21 @@
 namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
-use Obix\Component\Hopper\Administrator\Extension\Pathname;
+use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
 use ZipArchive;
 
 \defined('_JEXEC') or die;
 
 class ComponentPackage
 {
-    private Pathname $settings;
+    private PackageHelper $packageHelper;
 
     /**
-     * @param Pathname $settings
+     * @param PackageHelper $packageHelper
      */
-    public function __construct(Pathname $settings)
+    public function __construct(PackageHelper $packageHelper)
     {
-        $this->settings = $settings;
+        $this->packageHelper = $packageHelper;
     }
 
     public function create(): void
@@ -36,7 +36,7 @@ class ComponentPackage
 
         $archive = new ZipArchive();
 
-        $archive->open($this->settings->packagesFolder() . '/com_hopper-' . $version . '.zip', ZipArchive::OVERWRITE | ZipArchive::CREATE);
+        $archive->open($this->packageHelper->packagesFolder() . '/' . $this->packageHelper->componentPackageName($version), ZipArchive::OVERWRITE | ZipArchive::CREATE);
 
         $archive->addFile(JPATH_COMPONENT_ADMINISTRATOR . '/hopper.xml', 'hopper.xml');
         $this->zipDir($archive, JPATH_ROOT. '/administrator/components/com_hopper', 'administrator/components/com_hopper');

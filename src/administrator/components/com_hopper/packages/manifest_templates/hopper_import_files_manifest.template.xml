@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="file" method="upgrade">
-    <name>File - Hopper import files</name>
+    <name>File - Hopper {{packagename}} import files</name>
     <creationDate>{{creationDate}}</creationDate>
     <author>{{author}}</author>
     <authorEmail>{{authorEmail}}</authorEmail>
