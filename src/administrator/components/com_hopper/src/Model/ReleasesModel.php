@@ -77,20 +77,58 @@ class ReleasesModel extends ListModel
             $query->where('(release.title LIKE ' . $search . ')');
         }
 
-        $orderCol = $this->state->get(
-            'list.ordering',
-            'release.title'
-        );
-        $orderDirn = $this->state->get(
-            'list.direction',
-            'ASC'
-        );
-        $query->order(
-            $db->escape($orderCol) . ' ' . $db->
-            escape($orderDirn)
-        );
+        if (!empty($order = $this->ordering())) {
+            $query->order($order);
+        }
 
         return $query;
+    }
+
+    private function ordering(): string
+    {
+        $orderCols = $this->state->get(
+            'list.ordering.columns',
+            ['title', 'version']
+        );
+        $orderDirs = $this->state->get(
+            'list.direction.columns',
+            ['ASC', 'DESC']
+        );
+
+        if (!(empty($orderCols) || empty($orderDirs))) {
+            return $this->multiColumnOrdering($orderCols, $orderDirs);
+        }
+
+        $orderCols = $this->state->get(
+            'list.ordering',
+            ['title', 'version']
+        );
+        if (!is_array($orderCols)) {
+            $orderCols = [$orderCols];
+        }
+
+        $orderDirs = $this->state->get(
+            'list.direction',
+            ['ASC', 'DESC']
+        );
+        if (!is_array($orderDirs)) {
+            $orderDirs = [$orderDirs];
+        }
+
+        return $this->multiColumnOrdering($orderCols, $orderDirs);
+    }
+
+    private function multiColumnOrdering($orderCols, $orderDirs): string
+    {
+        $db = $this->getDatabase();
+
+        $orderings = array_map(
+            fn(string $column, string $direction = 'ASC') => $db->escape($column) . ' ' . $db->escape($direction),
+            $orderCols,
+            $orderDirs
+        );
+
+        return implode(', ', $orderings);
     }
 
     protected function populateState(
@@ -111,6 +149,13 @@ class ReleasesModel extends ListModel
             'filter_search'
         );
         $this->setState('filter.search', $search);
+
+        $orderCols = $app->input->get('filter_order_columns', ['title', 'version']);
+        $orderDirs = $app->input->get('filter_order_Dir_columns', ['ASC', 'DESC']);
+
+        // Set the state with the retrieved values
+        $this->setState('list.ordering.columns', $orderCols);
+        $this->setState('list.direction.columns', $orderDirs);
 
         parent::populateState($ordering, $direction);
     }
