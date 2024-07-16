@@ -14,7 +14,7 @@ use Joomla\CMS\Factory;
 use Joomla\CMS\Installer\InstallerAdapter;
 use Joomla\CMS\Installer\InstallerScriptInterface;
 use Obix\Component\Hopper\Administrator\Extension\Hopper\HopperType;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageHelper;
 use Obix\Component\Hopper\Administrator\Model\ImportModel;
 
 return new class() implements InstallerScriptInterface {

@@ -26,7 +26,7 @@ use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\FilesManifest
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\PackageManifestAttributes;
 use Obix\Component\Hopper\Administrator\Extension\Package\Package;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageHelper;
 
 use function defined;
 

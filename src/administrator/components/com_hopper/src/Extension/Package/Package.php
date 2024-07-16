@@ -12,7 +12,7 @@ namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
 use Obix\Component\Hopper\Administrator\Extension\Package\Manifest\Manifest;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageHelper;
 use ZipArchive;
 
 use function defined;

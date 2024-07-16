@@ -13,7 +13,7 @@ use Joomla\CMS\Language\Text;
 use Joomla\CMS\Layout\LayoutHelper;
 use Joomla\CMS\Router\Route;
 use Obix\Component\Hopper\Administrator\Extension\Package\PackageType;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageHelper;
 
 $listOrder = $this->escape($this->state->get('list.ordering'));
 $listDirn = $this->escape($this->state->get('list.direction'));

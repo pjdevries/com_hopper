@@ -8,12 +8,11 @@
  * @link        https://www.obix.nl
  */
 
-namespace Obix\Component\Hopper\Administrator\Extension;
+namespace Obix\Component\Hopper\Administrator\Extension\Package;
 
 defined('_JEXEC') or die;
 
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
-use Obix\Component\Hopper\Administrator\Extension\Package\PackageType;
 
 use function defined;
 

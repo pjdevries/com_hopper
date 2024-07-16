@@ -16,7 +16,7 @@ use DateTimeImmutable;
 use Joomla\CMS\Factory;
 use Joomla\CMS\Uri\Uri;
 use Obix\Component\Hopper\Administrator\Extension\Joomla\ComponentHelper;
-use Obix\Component\Hopper\Administrator\Extension\PackageHelper;
+use Obix\Component\Hopper\Administrator\Extension\Package\PackageHelper;
 
 use function defined;
 
