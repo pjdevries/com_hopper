@@ -53,6 +53,8 @@ return new class() implements InstallerScriptInterface {
             return true;
         }
 
+        JLoader::registerNamespace('Obix\Component\Hopper\Administrator', JPATH_ADMINISTRATOR . '/components/com_hopper/src');
+
         // Remove the "hopper_" prefix from the package name to obtain tha package alias.
         $packageAlias = str_replace('hopper_', '', (string)$adapter->manifest->packagename);
         $version = (string)$adapter->manifest->version;
