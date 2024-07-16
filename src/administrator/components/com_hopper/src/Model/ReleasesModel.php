@@ -123,7 +123,19 @@ class ReleasesModel extends ListModel
         $db = $this->getDatabase();
 
         $orderings = array_map(
-            fn(string $column, string $direction = 'ASC') => $db->escape($column) . ' ' . $db->escape($direction),
+            function (string $column, string $direction = 'ASC') use ($db) {
+                if ($column !== 'version' && $column !== 'release.version') {
+                    return $db->escape($column) . ' ' . $db->escape($direction);
+                }
+
+                $versionOrderings = [];
+
+                $versionOrderings[] = 'CAST(SUBSTRING_INDEX(' . $db->quoteName($db->escape($column)) . ', \'.\', 1) AS UNSIGNED) ' . $db->escape($direction);
+                $versionOrderings[] = 'CAST(SUBSTRING_INDEX(SUBSTRING_INDEX(' . $db->quoteName($db->escape($column)) . ', \'.\', 2), \'.\', -1) AS UNSIGNED) ' . $db->escape($direction);
+                $versionOrderings[] = 'CAST(SUBSTRING_INDEX(' . $db->quoteName($db->escape($column)) . ', \'.\', -1) AS UNSIGNED) ' . $db->escape($direction);
+
+                return implode(', ', $versionOrderings);
+            },
             $orderCols,
             $orderDirs
         );
