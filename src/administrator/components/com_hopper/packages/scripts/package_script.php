@@ -47,7 +47,14 @@ return new class() implements InstallerScriptInterface {
 
     public function postflight(string $type, InstallerAdapter $adapter): bool
     {
-        $packageAlias = (string)$adapter->manifest->packagename;
+        // Only run on install
+        if ($type !== 'install')
+        {
+            return true;
+        }
+
+        // Remove the "hopper_" prefix from the package name to obtain tha package alias.
+        $packageAlias = str_replace('herman_', '', (string)$adapter->manifest->packagename);
         $version = (string)$adapter->manifest->version;
 
         $packageHelper = new PackageHelper($packageAlias, $version);

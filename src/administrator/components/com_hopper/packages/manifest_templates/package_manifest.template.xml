@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <extension type="package" method="upgrade">
-    <name>Hopper {{packagename}} package</name>
+    <name>Hopper {{name}} package</name>
     <packagename>{{packagename}}</packagename>
     <creationDate>{{creationDate}}</creationDate>
     <author>{{author}}</author>
@@ -14,7 +14,7 @@
     <scriptfile>script.php</scriptfile>
 
     <files>
-        <file type="file" id="hopper_{{packagename}}_import_files">{{filesPackage}}</file>
+        <file type="file" id="{{filesPackageId}}">{{filesPackage}}</file>
         <file type="component" id="com_hopper">{{componentPackage}}</file>
     </files>
 </extension>

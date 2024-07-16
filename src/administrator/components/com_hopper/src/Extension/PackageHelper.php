@@ -134,7 +134,7 @@ class PackageHelper
      */
     public function filesManifestName(): string
     {
-        return 'hopper_' . $this->projectAlias . '_import_files-' . $this->getVersion() . '.xml';
+        return 'files_hopper_' . $this->projectAlias . '.xml';
     }
 
     /**
@@ -142,7 +142,7 @@ class PackageHelper
      */
     public function filesPackageName(): string
     {
-        return 'hopper_' . $this->projectAlias . '_import_files-' . $this->getVersion() . '.zip';
+        return 'files_hopper_' . $this->projectAlias . '-' . $this->version . '.zip';
     }
 
     /**
@@ -150,7 +150,7 @@ class PackageHelper
      */
     public function packageManifestName(): string
     {
-        return 'pkg_hopper_' . $this->projectAlias . '-' . $this->version . '.xml';
+        return 'pkg_hopper_' . $this->projectAlias . '.xml';
     }
 
     /**
