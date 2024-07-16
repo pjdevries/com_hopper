@@ -14,13 +14,29 @@ defined('_JEXEC') or die;
 
 use Exception;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Form\Form;
 use Joomla\CMS\Language\Text;
 use Joomla\CMS\MVC\Model\AdminModel;
+use Joomla\Component\SustainabilityCalculator\Administrator\Measurement\Converter;
+use Joomla\Component\SustainabilityCalculator\Administrator\Measurement\Unit;
 
 use function defined;
 
 class ReleaseModel extends AdminModel
 {
+    public function maxProjectVersion(int $projectId): string
+    {
+        $db = $this->getDatabase();
+        $query = $db->getQuery(true);
+        $query
+            ->select('MAX(' . $db->quoteName('version') . ') AS ' . $db->quoteName('version'))
+            ->from($db->quoteName('#__hopper_releases'))
+            ->where($db->quoteName('project_id') . ' = ' . $db->quote($projectId));
+        $db->setQuery($query);
+
+        return $db->loadResult();
+    }
+
     public function save($data): bool
     {
         if (!(int)$data['id']) {
@@ -44,7 +60,19 @@ class ReleaseModel extends AdminModel
             return false;
         }
 
+//        $this->setDynamicFieldAttributes($form);
+
         return $form;
+    }
+    private function setDynamicFieldAttributes(Form $form, string $measurmentUnit = 'mm'): void
+    {
+        $version = ($this->maxProjectVersion() ?? '') ?: '1.0.0';
+
+        $form->setFieldAttribute(
+            'version',
+            'default',
+            $version
+        );
     }
 
     protected function loadFormData()
