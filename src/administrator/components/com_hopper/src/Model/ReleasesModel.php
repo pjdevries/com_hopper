@@ -77,6 +77,12 @@ class ReleasesModel extends ListModel
             $query->where('(release.title LIKE ' . $search . ')');
         }
 
+        $alias = $this->getState('filter.alias');
+
+        if (!empty($alias)) {
+            $query->where('(project.alias = ' . $db->quote($db->escape($alias)) . ')');
+        }
+
         if (!empty($order = $this->ordering())) {
             $query->order($order);
         }
