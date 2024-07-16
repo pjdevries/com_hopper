@@ -1,9 +1,9 @@
 <?php
 /**
- * @package     WebwinkelKeur
+ * @package     com_hopper
  *
  * @author      Pieter-Jan de Vries/Obix webtechniek <pieter@obix.nl>
- * @copyright   Copyright (C) 2023+ Obix webtechniek. All rights reserved.
+ * @copyright   Copyright (C) 2024+ Obix webtechniek. All rights reserved.
  * @license     GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
  * @link        https://www.obix.nl
  */
@@ -54,7 +54,7 @@ return new class() implements InstallerScriptInterface {
         }
 
         // Remove the "hopper_" prefix from the package name to obtain tha package alias.
-        $packageAlias = str_replace('herman_', '', (string)$adapter->manifest->packagename);
+        $packageAlias = str_replace('hopper_', '', (string)$adapter->manifest->packagename);
         $version = (string)$adapter->manifest->version;
 
         $packageHelper = new PackageHelper($packageAlias, $version);
