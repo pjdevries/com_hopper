@@ -14,7 +14,7 @@
     <scriptfile>script.php</scriptfile>
 
     <files>
-        <file type="file" id="{{filesPackageId}}">{{filesPackage}}</file>
         <file type="component" id="com_hopper">{{componentPackage}}</file>
+        <file type="file" id="{{filesPackageId}}">{{filesPackage}}</file>
     </files>
 </extension>
