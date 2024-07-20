@@ -92,4 +92,9 @@ already imported must be removed. While doing so, don't forget to empty the **Tr
 - Create at least one project and one release for that project. The alias name of the poject will be used as a unique
   identifier for generation of installable packages.
 - Download the project package.
-- Install the project package into new, empty, and freshly installed Joomla website.
+- Install the project package into a new, empty, and freshly installed Joomla website.
+
+Currently it is not yet possible to manage, i.e. modify or delete etc., projects or releases.
+
+**BEWARE!**: *Although it is possible to create multiple release versions for a project, a newer version cannot (yet) be
+installed on a site where a previous release has already been installed to update it.*
