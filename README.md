@@ -17,9 +17,10 @@ _(Grace Hopper)_
 
 ## Raison d'être
 
-The idea for this extension came from Herman Peeren and is a spin-off of his Joomla Magazine article series **Tools to
-Make a Joomla Component**. The series focuses on customising Joomla, comparing various approaches, from using custom
-fields and CCKs to developing a custom component.
+The idea for this extension came from Herman Peeren and is a spin-off of his Joomla Magazine article series [**Tools to
+Make a Joomla Component**](https://magazine.joomla.org/all-issues/july-2024/episode-1-introduction-and-core-solution).
+The series focuses on customising Joomla, comparing various approaches, from using custom fields and CCKs to developing
+a custom component.
 
 Custom fields are fields that can be added to Joomla core content types (articles, categories, users, contacts) to
 extend or enhance their usability. While custom components can easily be installed on multiple Joomla websites and most
